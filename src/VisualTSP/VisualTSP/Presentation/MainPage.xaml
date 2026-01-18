@@ -19,6 +19,7 @@
                 VerticalAlignment="Center"
                 Spacing="16">
                 <local:VisualNode />
+                <local:VisualLink />
                 <TextBox
                     Text="{Binding Name, Mode=TwoWay}"
                     PlaceholderText="Enter your name:" />
