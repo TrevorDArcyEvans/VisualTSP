@@ -9,6 +9,7 @@ public sealed partial class VisualNode : UserControl
     public VisualNode()
     {
         InitializeComponent();
+        ToolTipService.SetToolTip(this, Name.Text);
     }
     
     private Brush _oldColour;

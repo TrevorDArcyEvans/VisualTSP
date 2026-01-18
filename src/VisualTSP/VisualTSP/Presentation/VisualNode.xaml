@@ -16,8 +16,11 @@
             Width="50"
             Height="50" />
         <TextBlock
+            x:Name="Name"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="Visual Node" />
+            MaxWidth="50"
+            MaxHeight="50"
+            Text="Some really long text" />
     </Grid>
 </UserControl>
