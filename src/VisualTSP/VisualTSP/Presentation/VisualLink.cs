@@ -18,6 +18,7 @@ public sealed class VisualLink : Line
         StrokeThickness = 4d;
         PointerEntered += Shape_OnMouseEntered;
         PointerExited += Shape_OnMouseExited;
+        ToolTipService.SetToolTip(this, Tag);
     }
 
     private Brush _oldColour;
