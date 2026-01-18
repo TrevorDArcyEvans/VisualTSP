@@ -2,10 +2,12 @@
     x:Class="VisualTSP.Presentation.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:VisualTSP.Presentation"
-    xmlns:uen="using:Uno.Extensions.Navigation.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:utu="using:Uno.Toolkit.UI"
-    xmlns:um="using:Uno.Material"
+    xmlns:domain="using:VisualTSP.Presentation"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=domain:MainViewModel}"
     NavigationCacheMode="Required"
     Background="{ThemeResource BackgroundBrush}">
     <ScrollViewer IsTabStop="True">
@@ -18,8 +20,8 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Spacing="16">
-                <local:VisualNode />
-                <local:VisualLink />
+                <domain:VisualNode />
+                <domain:VisualLink />
                 <TextBox
                     Text="{Binding Name, Mode=TwoWay}"
                     PlaceholderText="Enter your name:" />
