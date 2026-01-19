@@ -262,6 +262,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void DeleteLink(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        var link = (VisualLink) EditLinkMenu.Target;
+        Canvas.Children.Remove(link);
     }
 }
