@@ -242,7 +242,17 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void DeleteNode(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        var node = (VisualNode) EditNodeMenu.Target;
+        DeleteAssociatedLinks((node));
+        Canvas.Children.Remove(node);
+    }
+
+    private void DeleteAssociatedLinks(VisualNode node)
+    {
+        if (node == Node1 || node == Node2)
+        {
+            Canvas.Children.Remove(Link12);
+        }
     }
 
     private void EditLink(object sender, RoutedEventArgs e)
