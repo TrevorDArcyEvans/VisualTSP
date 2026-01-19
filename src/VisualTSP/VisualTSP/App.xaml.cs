@@ -17,18 +17,10 @@ public partial class App : Application
   protected async override void OnLaunched(LaunchActivatedEventArgs args)
   {
       var builder = this.CreateBuilder(args)
-          .Configure(host => host.UseNavigation(RegisterRoutes));
+          .Configure(host => host.UseNavigation());
     MainWindow = builder.Window;
     MainWindow.SetWindowIcon();
 
     Host = await builder.NavigateAsync<MainPage>();
-  }
-  private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
-  {
-      views.Register(
-          new ViewMap<MainPage, MainViewModel>());
-
-      routes.Register(
-          new RouteMap("Main", View: views.FindByViewModel<MainViewModel>(), IsDefault: true));
   }
 }
