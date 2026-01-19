@@ -263,9 +263,11 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private async void EditLink(object sender, RoutedEventArgs e)
     {
-        var editLink = (VisualLink) EditLinkMenu.Target;
-        var dlg = new LinkCostDialog(editLink);
-        dlg.XamlRoot = XamlRoot;
+        var link = (VisualLink) EditLinkMenu.Target;
+        var dlg = new LinkCostDialog(link)
+        {
+            XamlRoot = XamlRoot
+        };
         await dlg.ShowAsync();
     }
 

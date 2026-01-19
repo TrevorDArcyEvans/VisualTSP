@@ -2,7 +2,7 @@
     x:Class="VisualTSP.Presentation.LinkCostDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Link cost"
+    Title="Link Cost"
     PrimaryButtonText="OK"
     PrimaryButtonClick="OnOkClick"
     CloseButtonText="Cancel">
