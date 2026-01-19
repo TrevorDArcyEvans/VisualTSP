@@ -5,7 +5,7 @@ public sealed partial class VisualNode : UserControl, IHighlightable
     public VisualNode()
     {
         InitializeComponent();
-        ToolTipService.SetToolTip(this, Name.Text);
+        UpdateToolTip();
     }
 
     public Brush Fill
@@ -31,5 +31,10 @@ public sealed partial class VisualNode : UserControl, IHighlightable
         {
             Shape.Stroke = value;
         }
+    }
+
+    public void UpdateToolTip()
+    {
+        ToolTipService.SetToolTip(this, DisplayName.Text);
     }
 }

@@ -16,7 +16,8 @@
             Width="50"
             Height="50" />
         <TextBlock
-            x:Name="Name"
+            x:Name="DisplayName"
+            x:FieldModifier="public"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             MaxWidth="50"

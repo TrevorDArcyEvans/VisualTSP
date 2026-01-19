@@ -241,9 +241,14 @@ public sealed partial class MainPage : INotifyPropertyChanged
         throw new NotImplementedException();
     }
 
-    private void EditNode(object sender, RoutedEventArgs e)
+    private async void EditNode(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        var node = (VisualNode) EditNodeMenu.Target;
+        var dlg = new NodeNameDialog(node)
+        {
+            XamlRoot = XamlRoot
+        };
+        await dlg.ShowAsync();
     }
 
     private void DeleteNode(object sender, RoutedEventArgs e)
