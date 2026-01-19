@@ -85,16 +85,16 @@ public sealed partial class MainPage : INotifyPropertyChanged
         _startPoint = newPoint;
     }
 
-    private void UpdateLine(VisualNode draggedCircle)
+    private void UpdateLine(VisualNode node)
     {
         // have to use ActualWidth/Height since composite control
-        if (draggedCircle == Node1)
+        if (node == Node1)
         {
             Link12.X1 = Canvas.GetLeft(Node1) + Node1.ActualWidth / 2;
             Link12.Y1 = Canvas.GetTop(Node1) + Node1.ActualHeight / 2;
         }
-        
-        if (draggedCircle == Node2)
+
+        if (node == Node2)
         {
             Link12.X2 = Canvas.GetLeft(Node2) + Node2.ActualWidth / 2;
             Link12.Y2 = Canvas.GetTop(Node2) + Node2.ActualHeight / 2;
@@ -202,6 +202,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
         Canvas.Add(node);
     }
 
+    #region StartNode
+
     private VisualNode _startNode;
 
     public bool IsStart
@@ -229,6 +231,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
     {
         _startNode = (VisualNode) EditNodeMenu.Target;
     }
+
+    #endregion
 
     private void AddLink(object sender, RoutedEventArgs e)
     {
