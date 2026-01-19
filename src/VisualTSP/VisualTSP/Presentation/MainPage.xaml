@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:presentation="clr-namespace:VisualTSP.Presentation"
     mc:Ignorable="d">
     <Page.Resources>
         <MenuFlyout x:Key="AddNodeMenu" x:Name="AddNodeMenu">
@@ -53,21 +54,18 @@
                         ScaleY="1" />
                 </Canvas.RenderTransform>
 
-                <!-- First child (Red) -->
-                <Ellipse
+                <!-- First child -->
+                <presentation:VisualNode
                     x:Name="Node1"
                     PointerEntered="Shape_OnMouseEntered"
                     PointerPressed="Shape_OnMouseDown"
                     PointerMoved="Shape_OnMouseMove"
                     PointerReleased="Shape_OnMouseUp"
                     PointerExited="Shape_OnMouseExited"
-                    ContextFlyout="{StaticResource EditNodeMenu}"
-                    Fill="Red"
-                    Width="50"
-                    Height="50" />
+                    ContextFlyout="{StaticResource EditNodeMenu}" />
 
-                <!-- Second child (Green) -->
-                <Ellipse
+                <!-- Second child -->
+                <presentation:VisualNode
                     x:Name="Node2"
                     PointerEntered="Shape_OnMouseEntered"
                     PointerPressed="Shape_OnMouseDown"
@@ -75,41 +73,32 @@
                     PointerReleased="Shape_OnMouseUp"
                     PointerExited="Shape_OnMouseExited"
                     ContextFlyout="{StaticResource EditNodeMenu}"
-                    Fill="Green"
-                    Width="50"
-                    Height="50"
-                    Canvas.Left="20"
-                    Canvas.Top="20" />
+                    Canvas.Left="200"
+                    Canvas.Top="200" />
 
-                <!-- Third child (Blue) -->
-                <Ellipse
+                <!-- Third child -->
+                <presentation:VisualNode
                     PointerEntered="Shape_OnMouseEntered"
                     PointerPressed="Shape_OnMouseDown"
                     PointerMoved="Shape_OnMouseMove"
                     PointerReleased="Shape_OnMouseUp"
                     PointerExited="Shape_OnMouseExited"
                     ContextFlyout="{StaticResource EditNodeMenu}"
-                    Fill="Blue"
-                    Width="50"
-                    Height="50"
-                    Canvas.Left="40"
-                    Canvas.Top="40" />
+                    Canvas.Left="400"
+                    Canvas.Top="400" />
 
-                <!-- Fourth child (Purple) -->
-                <Ellipse
+                <!-- Fourth child -->
+                <presentation:VisualNode
                     PointerEntered="Shape_OnMouseEntered"
                     PointerPressed="Shape_OnMouseDown"
                     PointerMoved="Shape_OnMouseMove"
                     PointerReleased="Shape_OnMouseUp"
                     PointerExited="Shape_OnMouseExited"
                     ContextFlyout="{StaticResource EditNodeMenu}"
-                    Fill="Purple"
-                    Width="50"
-                    Height="50"
-                    Canvas.Left="60"
-                    Canvas.Top="60" />
+                    Canvas.Left="600"
+                    Canvas.Top="400" />
 
-                <Line
+                <presentation:VisualLink
                     x:Name="Link12"
                     PointerEntered="Shape_OnMouseEntered"
                     PointerExited="Shape_OnMouseExited"
@@ -117,8 +106,8 @@
                     ToolTipService.ToolTip="{Binding Tag, RelativeSource={RelativeSource Self}}"
                     X1="25"
                     Y1="25"
-                    X2="45"
-                    Y2="45"
+                    X2="225"
+                    Y2="225"
                     Tag="42"
                     Canvas.ZIndex="-1"
                     Stroke="Black"

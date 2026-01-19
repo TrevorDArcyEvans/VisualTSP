@@ -10,9 +10,9 @@
 
     <Grid>
         <Ellipse
+            x:Name="Shape"
+            x:FieldModifier="public"
             Fill="DodgerBlue"
-            PointerEntered="Shape_OnMouseEntered"
-            PointerExited="Shape_OnMouseExited"
             Width="50"
             Height="50" />
         <TextBlock
