@@ -1,4 +1,6 @@
-﻿namespace VisualTSP.Presentation;
+﻿using Windows.UI.Core;
+
+namespace VisualTSP.Presentation;
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -259,9 +261,12 @@ public sealed partial class MainPage : INotifyPropertyChanged
         }
     }
 
-    private void EditLink(object sender, RoutedEventArgs e)
+    private async void EditLink(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        var editLink = (VisualLink) EditLinkMenu.Target;
+        var dlg = new LinkCostDialog(editLink);
+        dlg.XamlRoot = XamlRoot;
+        await dlg.ShowAsync();
     }
 
     private void DeleteLink(object sender, RoutedEventArgs e)

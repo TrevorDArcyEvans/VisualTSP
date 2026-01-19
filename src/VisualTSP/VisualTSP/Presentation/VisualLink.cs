@@ -9,6 +9,11 @@ public sealed class VisualLink : Line, IHighlightable
         Stroke = "Black";
         StrokeThickness = 4d;
         Tag = "42";
+        UpdateToolTip();
+    }
+    
+    public void UpdateToolTip()
+    {
         ToolTipService.SetToolTip(this, Tag);
     }
 }

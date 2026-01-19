@@ -1,0 +1,26 @@
+<ContentDialog
+    x:Class="VisualTSP.Presentation.LinkCostDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Link cost"
+    PrimaryButtonText="OK"
+    PrimaryButtonClick="OnOkClick"
+    CloseButtonText="Cancel">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Text="Enter new link cost:"
+            Grid.Row="0"
+            Margin="5" />
+        <TextBox
+            x:Name="Cost"
+            Width="350"
+            Height="32"
+            Grid.Row="1"
+            Margin="5"
+            TextChanged="OnTextChanged" />
+    </Grid>
+</ContentDialog>
