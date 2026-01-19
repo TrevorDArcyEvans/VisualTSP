@@ -4,29 +4,211 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:utu="using:Uno.Toolkit.UI"
-    xmlns:domain="using:VisualTSP.Presentation"
-    mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance Type=domain:MainViewModel}"
-    NavigationCacheMode="Required"
-    Background="{ThemeResource BackgroundBrush}">
-    <ScrollViewer IsTabStop="True">
-        <Grid utu:SafeArea.Insets="VisibleBounds">
+    mc:Ignorable="d">
+    <Page.Resources>
+        <MenuFlyout x:Key="AddNodeMenu" x:Name="AddNodeMenu">
+            <MenuFlyoutItem Text="Add node" Click="AddNode" />
+        </MenuFlyout>
+
+        <MenuFlyout
+            x:Key="EditNodeMenu"
+            x:Name="EditNodeMenu"
+            Opening="EditNodeMenu_OnOpening">
+            <ToggleMenuFlyoutItem
+                Text="Start"
+                Click="StartNode"
+                IsChecked="{x:Bind IsStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <MenuFlyoutItem Text="Add link" Click="AddLink" />
+            <MenuFlyoutItem Text="Edit" Click="EditNode" />
+            <MenuFlyoutItem Text="Delete" Click="DeleteNode" />
+        </MenuFlyout>
+
+        <MenuFlyout x:Key="EditLinkMenu" x:Name="EditLinkMenu">
+            <MenuFlyoutItem Text="Edit" Click="EditLink" />
+            <MenuFlyoutItem Text="Delete" Click="DeleteLink" />
+        </MenuFlyout>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- canvas -->
+        <Grid BorderBrush="Black" BorderThickness="1">
+            <Canvas
+                x:Name="Canvas"
+                Background="Transparent"
+                ContextFlyout="{StaticResource AddNodeMenu}"
+                PointerMoved="Canvas_OnPointerMoved">
+
+                <Canvas.RenderTransform>
+                    <CompositeTransform
+                        ScaleX="1"
+                        ScaleY="1" />
+                </Canvas.RenderTransform>
+
+                <!-- First child (Red) -->
+                <Ellipse
+                    x:Name="Node1"
+                    PointerEntered="Shape_OnMouseEntered"
+                    PointerPressed="Shape_OnMouseDown"
+                    PointerMoved="Shape_OnMouseMove"
+                    PointerReleased="Shape_OnMouseUp"
+                    PointerExited="Shape_OnMouseExited"
+                    ContextFlyout="{StaticResource EditNodeMenu}"
+                    Fill="Red"
+                    Width="50"
+                    Height="50" />
+
+                <!-- Second child (Green) -->
+                <Ellipse
+                    x:Name="Node2"
+                    PointerEntered="Shape_OnMouseEntered"
+                    PointerPressed="Shape_OnMouseDown"
+                    PointerMoved="Shape_OnMouseMove"
+                    PointerReleased="Shape_OnMouseUp"
+                    PointerExited="Shape_OnMouseExited"
+                    ContextFlyout="{StaticResource EditNodeMenu}"
+                    Fill="Green"
+                    Width="50"
+                    Height="50"
+                    Canvas.Left="20"
+                    Canvas.Top="20" />
+
+                <!-- Third child (Blue) -->
+                <Ellipse
+                    PointerEntered="Shape_OnMouseEntered"
+                    PointerPressed="Shape_OnMouseDown"
+                    PointerMoved="Shape_OnMouseMove"
+                    PointerReleased="Shape_OnMouseUp"
+                    PointerExited="Shape_OnMouseExited"
+                    ContextFlyout="{StaticResource EditNodeMenu}"
+                    Fill="Blue"
+                    Width="50"
+                    Height="50"
+                    Canvas.Left="40"
+                    Canvas.Top="40" />
+
+                <!-- Fourth child (Purple) -->
+                <Ellipse
+                    PointerEntered="Shape_OnMouseEntered"
+                    PointerPressed="Shape_OnMouseDown"
+                    PointerMoved="Shape_OnMouseMove"
+                    PointerReleased="Shape_OnMouseUp"
+                    PointerExited="Shape_OnMouseExited"
+                    ContextFlyout="{StaticResource EditNodeMenu}"
+                    Fill="Purple"
+                    Width="50"
+                    Height="50"
+                    Canvas.Left="60"
+                    Canvas.Top="60" />
+
+                <Line
+                    x:Name="Link12"
+                    PointerEntered="Shape_OnMouseEntered"
+                    PointerExited="Shape_OnMouseExited"
+                    ContextFlyout="{StaticResource EditLinkMenu}"
+                    ToolTipService.ToolTip="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                    X1="25"
+                    Y1="25"
+                    X2="45"
+                    Y2="45"
+                    Tag="42"
+                    Canvas.ZIndex="-1"
+                    Stroke="Black"
+                    StrokeThickness="4" />
+            </Canvas>
+        </Grid>
+
+        <!-- mouse pos -->
+        <Grid Row="1">
+            <TextBlock
+                x:Name="MousePos" />
+        </Grid>
+
+        <!-- view manipulation -->
+        <Grid Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="16">
-                <domain:VisualNode />
-                <domain:VisualLink />
-                <TextBox
-                    Text="{Binding Name, Mode=TwoWay}"
-                    PlaceholderText="Enter your name:" />
-                <Button Content="OK" />
-            </StackPanel>
+            <!-- zoom -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Content="+"
+                    Click="Zoom_In" />
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="0"
+                    Click="Zoom_Fit" />
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Content="-"
+                    Click="Zoom_Out" />
+            </Grid>
+
+            <!-- translate -->
+            <Grid Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Content="U"
+                    Click="Translate_Up" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="L"
+                    Click="Translate_Left" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Content="R"
+                    Click="Translate_Right" />
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Content="D"
+                    Click="Translate_Down" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Content="O"
+                    Click="Translate_Reset" />
+            </Grid>
         </Grid>
-    </ScrollViewer>
+    </Grid>
+
 </Page>
