@@ -6,6 +6,9 @@ public sealed class VisualLink : Line, IHighlightable
 {
     public VisualLink()
     {
-        //ToolTipService.SetToolTip(this, Tag);
+        Stroke = "Black";
+        StrokeThickness = 4d;
+        Tag = "42";
+        ToolTipService.SetToolTip(this, Tag);
     }
 }

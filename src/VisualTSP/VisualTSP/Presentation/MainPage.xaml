@@ -103,15 +103,11 @@
                     PointerEntered="Shape_OnMouseEntered"
                     PointerExited="Shape_OnMouseExited"
                     ContextFlyout="{StaticResource EditLinkMenu}"
-                    ToolTipService.ToolTip="{Binding Tag, RelativeSource={RelativeSource Self}}"
                     X1="25"
                     Y1="25"
                     X2="225"
                     Y2="225"
-                    Tag="42"
-                    Canvas.ZIndex="-1"
-                    Stroke="Black"
-                    StrokeThickness="4" />
+                    Canvas.ZIndex="-1" />
             </Canvas>
         </Grid>
 
