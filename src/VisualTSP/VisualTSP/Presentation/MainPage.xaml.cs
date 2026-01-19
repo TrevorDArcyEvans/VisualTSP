@@ -1,9 +1,9 @@
-﻿using Windows.UI.Core;
-
-namespace VisualTSP.Presentation;
-
+﻿namespace VisualTSP.Presentation;
+  
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Web;
 using Windows.UI.Input;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Input;
@@ -280,5 +280,74 @@ public sealed partial class MainPage : INotifyPropertyChanged
     {
         var link = (VisualLink) EditLinkMenu.Target;
         Canvas.Children.Remove(link);
+    }
+
+    private async void OnOpen(object sender, RoutedEventArgs e)
+    {
+        var picker = new Windows.Storage.Pickers.FileOpenPicker
+        {
+            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+        };
+        picker.FileTypeFilter.Add(".tsp");
+        picker.FileTypeFilter.Add("*");
+        var file = await picker.PickSingleFileAsync();
+        if (file == null)
+        {
+            return;
+        }
+
+        Debug.WriteLine($"Selected file:  {file.Name}");
+    }
+
+    private async void OnSave(object sender, RoutedEventArgs e)
+    {
+        var savePicker = new Windows.Storage.Pickers.FileSavePicker
+        {
+            SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary,
+            SuggestedFileName = "New Document"
+        };
+        savePicker.FileTypeChoices.Add("Travelling Salesman Problem (*.tsp)", (List<string>) [".tsp"]);
+        var file = await savePicker.PickSaveFileAsync();
+        if (file == null)
+        {
+            Debug.WriteLine("Operation cancelled.");
+            return;
+        }
+
+        // Prevent updates to the remote version of the file until
+        // we finish making changes and call CompleteUpdatesAsync.
+        CachedFileManager.DeferUpdates(file);
+        if (!File.Exists(file.Path))
+        {
+            // spaces are html escaped as %20 etc
+            var filePath = HttpUtility.UrlDecode(file.Path);
+            
+            // add extension if user hasn't
+            filePath = Path.ChangeExtension(filePath, ".tsp");
+            
+            // update file variable
+            file = await StorageFile.GetFileFromPathAsync(filePath);
+            
+            // create file in target folder
+            var folder = Path.GetDirectoryName(file.Path);
+            var storFolder = await StorageFolder.GetFolderFromPathAsync(folder);
+            await storFolder.CreateFileAsync(file.Name, CreationCollisionOption.ReplaceExisting);
+        }
+
+        // write to file
+        await FileIO.WriteTextAsync(file, "file contents");
+
+        // Let Windows know that we're finished changing the file so
+        // the other app can update the remote version of the file.
+        // Completing updates may require Windows to ask for user input.
+        var status = await CachedFileManager.CompleteUpdatesAsync(file);
+        if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+        {
+            Debug.WriteLine($"File {file.Name} was saved.");
+        }
+        else
+        {
+            Debug.WriteLine($"File {file.Name} couldn't be saved.");
+        }
     }
 }
