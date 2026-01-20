@@ -356,6 +356,9 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var network = JsonConvert.DeserializeObject<JsonNetwork>(json);
 
         LoadNetwork(network);
+
+        var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+        appView.Title = $"{Package.Current.DisplayName} - {file.DisplayName}";
     }
 
     private void LoadNetwork(JsonNetwork network)
