@@ -356,15 +356,15 @@ public sealed partial class MainPage : INotifyPropertyChanged
             var visNode = new VisualNode(x);
             ConnectListeners(visNode);
             return visNode;
-        });
+        }).ToList();
         var links = network.Links.Select(x =>
         {
             var visLink = new VisualLink(x);
             ConnectListeners(visLink);
             return visLink;
-        });
-        _startNode = new VisualNode(network.Start);
-        _endNode = new VisualNode(network.End);
+        }).ToList();
+        _startNode = nodes.Single(x => x.Node.Id == network.Start.Node.Id);
+        _endNode = nodes.Single(x => x.Node.Id == network.End.Node.Id);
 
         Surface.Children.Clear();
 
