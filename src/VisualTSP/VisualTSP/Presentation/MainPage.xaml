@@ -19,6 +19,10 @@
                 Text="Start"
                 Click="StartNode"
                 IsChecked="{x:Bind IsStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ToggleMenuFlyoutItem
+                Text="End"
+                Click="EndNode"
+                IsChecked="{x:Bind IsEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <MenuFlyoutItem Text="Add link" Click="AddLink" />
             <MenuFlyoutItem Text="Edit" Click="EditNode" />
             <MenuFlyoutItem Text="Delete" Click="DeleteNode" />

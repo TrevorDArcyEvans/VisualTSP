@@ -218,7 +218,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         link.ContextFlyout = EditLinkMenu;
     }
 
-    #region StartNode
+    #region StartNode +EndNode
 
     private VisualNode _startNode;
     private VisualNode _endNode;
@@ -239,14 +239,36 @@ public sealed partial class MainPage : INotifyPropertyChanged
         }
     }
 
+    public bool IsEnd
+    {
+        get;
+
+        set
+        {
+            if (value == field)
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
     private void EditNodeMenu_OnOpening(object sender, object e)
     {
         IsStart = EditNodeMenu.Target == _startNode;
+        IsEnd = EditNodeMenu.Target == _endNode;
     }
 
     private void StartNode(object sender, RoutedEventArgs e)
     {
         _startNode = (VisualNode) EditNodeMenu.Target;
+    }
+
+    private void EndNode(object sender, RoutedEventArgs e)
+    {
+        _endNode = (VisualNode) EditNodeMenu.Target;
     }
 
     #endregion
@@ -409,7 +431,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var links = Surface.Children.OfType<VisualLink>().Select(x => new JsonLink(x)).ToList();
         var nodes = Surface.Children.OfType<VisualNode>().Select(x => new JsonNode(x)).ToList();
         var start = new JsonNode(_startNode);
-        var end = new JsonNode(_startNode);
+        var end = new JsonNode(_endNode);
         var network = new JsonNetwork(start, end)
         {
             Name = fileName,
