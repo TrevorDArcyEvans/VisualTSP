@@ -25,7 +25,7 @@ public partial class LinkCostDialog
     private void OnOkClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
         var value = int.Parse(Cost.Text);
-        _link.Tag = value;
+        _link.Tag = _link.Link.Cost = value;
         _link.UpdateToolTip();
     }
 }
