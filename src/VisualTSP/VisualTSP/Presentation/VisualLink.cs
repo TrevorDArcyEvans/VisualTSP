@@ -12,8 +12,9 @@ public sealed class VisualLink : Line, IHighlightable
     {
         Stroke = "Black";
         StrokeThickness = 4d;
-        Tag = "42";
+        Tag = 0;
         UpdateToolTip();
+        Canvas.SetZIndex(this, -1);
     }
 
     public VisualLink(JsonLink link):
