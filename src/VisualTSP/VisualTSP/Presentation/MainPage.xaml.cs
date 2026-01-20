@@ -57,11 +57,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private bool _drag;
     private PointerPoint _startPoint;
-
-    // we already have 4 circle, so topmost in Z order will be 5
-    // NOTE: this will eventually overflow but is good enough for a demo
-    private int _currZindex = 5;
-
+    
     private Brush _oldColour;
     private Brush _oldStroke;
 
@@ -108,9 +104,6 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
         // save start point of dragging
         _startPoint = e.GetCurrentPoint(Surface);
-
-        // move selected circle to the top of the Z order
-        Canvas.SetZIndex(node, _currZindex++);
     }
 
     private void Shape_OnMouseMove(object sender, PointerRoutedEventArgs e)
