@@ -97,6 +97,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
                 X2 = Canvas.GetLeft(node) + node.ActualWidth / 2,
                 Y2 = Canvas.GetTop(node) + node.ActualHeight / 2
             };
+            ConnectListeners(link);
             Surface.Children.Add(link);
 
             return;
