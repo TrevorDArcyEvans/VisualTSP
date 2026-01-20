@@ -7,10 +7,10 @@ public sealed class JsonNetwork
     public List<JsonNode> Nodes { get; set; }
     public List<JsonLink> Links { get; set; }
 
-    public JsonNode Start { get; set; }
-    public JsonNode End { get; set; }
+    public Guid Start { get; set; }
+    public Guid End { get; set; }
 
-    public JsonNetwork(JsonNode start, JsonNode end)
+    public JsonNetwork(Guid start, Guid end)
     {
         Start = start;
         End = end;

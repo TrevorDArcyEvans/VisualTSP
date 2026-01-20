@@ -219,8 +219,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     #region StartNode +EndNode
 
-    private VisualNode _startNode;
-    private VisualNode _endNode;
+    private Guid _startNode;
+    private Guid _endNode;
 
     public bool IsStart
     {
@@ -256,18 +256,18 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void EditNodeMenu_OnOpening(object sender, object e)
     {
-        IsStart = EditNodeMenu.Target == _startNode;
-        IsEnd = EditNodeMenu.Target == _endNode;
+        IsStart = ((VisualNode) EditNodeMenu.Target).Node.Id == _startNode;
+        IsEnd = ((VisualNode) EditNodeMenu.Target).Node.Id == _endNode;
     }
 
     private void StartNode(object sender, RoutedEventArgs e)
     {
-        _startNode = (VisualNode) EditNodeMenu.Target;
+        _startNode = ((VisualNode) EditNodeMenu.Target).Node.Id;
     }
 
     private void EndNode(object sender, RoutedEventArgs e)
     {
-        _endNode = (VisualNode) EditNodeMenu.Target;
+        _endNode = ((VisualNode) EditNodeMenu.Target).Node.Id;
     }
 
     #endregion
@@ -356,15 +356,15 @@ public sealed partial class MainPage : INotifyPropertyChanged
             var visNode = new VisualNode(x);
             ConnectListeners(visNode);
             return visNode;
-        }).ToList();
+        });
         var links = network.Links.Select(x =>
         {
             var visLink = new VisualLink(x);
             ConnectListeners(visLink);
             return visLink;
-        }).ToList();
-        _startNode = nodes.Single(x => x.Node.Id == network.Start.Node.Id);
-        _endNode = nodes.Single(x => x.Node.Id == network.End.Node.Id);
+        });
+        _startNode = network.Start;
+        _endNode = network.End;
 
         Surface.Children.Clear();
 
@@ -425,9 +425,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
     {
         var links = Surface.Children.OfType<VisualLink>().Select(x => new JsonLink(x)).ToList();
         var nodes = Surface.Children.OfType<VisualNode>().Select(x => new JsonNode(x)).ToList();
-        var start = new JsonNode(_startNode);
-        var end = new JsonNode(_endNode);
-        var network = new JsonNetwork(start, end)
+
+        var network = new JsonNetwork(_startNode, _endNode)
         {
             Name = fileName,
             Nodes = nodes,
