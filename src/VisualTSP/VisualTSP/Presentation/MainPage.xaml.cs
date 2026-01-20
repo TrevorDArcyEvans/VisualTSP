@@ -63,8 +63,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
         _startPoint = e.GetCurrentPoint(Surface);
 
         // move selected circle to the top of the Z order
-        var draggedCircle = (VisualNode) sender;
-        Canvas.SetZIndex(draggedCircle, _currZindex++);
+        var node = (VisualNode) sender;
+        Canvas.SetZIndex(node, _currZindex++);
     }
 
     private void Shape_OnMouseMove(object sender, PointerRoutedEventArgs e)
@@ -75,12 +75,12 @@ public sealed partial class MainPage : INotifyPropertyChanged
         }
 
         // if dragging, then adjust circle position based on mouse movement
-        var draggedCircle = (VisualNode) sender;
-        var left = Canvas.GetLeft(draggedCircle);
-        var top = Canvas.GetTop(draggedCircle);
+        var node = (VisualNode) sender;
+        var left = Canvas.GetLeft(node);
+        var top = Canvas.GetTop(node);
         var newPoint = e.GetCurrentPoint(Surface);
-        Canvas.SetLeft(draggedCircle, left + (newPoint.RawPosition.X - _startPoint.RawPosition.X));
-        Canvas.SetTop(draggedCircle, top + (newPoint.RawPosition.Y - _startPoint.RawPosition.Y));
+        Canvas.SetLeft(node, left + (newPoint.RawPosition.X - _startPoint.RawPosition.X));
+        Canvas.SetTop(node, top + (newPoint.RawPosition.Y - _startPoint.RawPosition.Y));
 
         UpdateLinks(node);
 
@@ -121,9 +121,9 @@ public sealed partial class MainPage : INotifyPropertyChanged
         // stop dragging
         _drag = false;
 
-        var node = (IHighlightable) sender;
-        node.Fill = _oldColour;
-        node.Stroke = _oldStroke;
+        var item = (IHighlightable) sender;
+        item.Fill = _oldColour;
+        item.Stroke = _oldStroke;
 
         // restore canvas CSM
         Surface.ContextFlyout = AddNodeMenu;
