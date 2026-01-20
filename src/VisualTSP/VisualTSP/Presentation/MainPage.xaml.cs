@@ -1,7 +1,6 @@
 ﻿namespace VisualTSP.Presentation;
 
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Web;
 using Windows.UI.Input;
@@ -320,7 +319,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
     }
 
     #region Serialisation/Deserialisation
-    
+
     private async void OnOpen(object sender, RoutedEventArgs e)
     {
         var picker = new Windows.Storage.Pickers.FileOpenPicker
@@ -416,13 +415,9 @@ public sealed partial class MainPage : INotifyPropertyChanged
         // the other app can update the remote version of the file.
         // Completing updates may require Windows to ask for user input.
         var status = await CachedFileManager.CompleteUpdatesAsync(file);
-        if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+        if (status != Windows.Storage.Provider.FileUpdateStatus.Complete)
         {
-            Debug.WriteLine($"File {file.Name} was saved.");
-        }
-        else
-        {
-            Debug.WriteLine($"File {file.Name} couldn't be saved.");
+            throw new FileNotFoundException($"File {file.Name} couldn't be saved.");
         }
     }
 
@@ -442,10 +437,9 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var json = JsonConvert.SerializeObject(network, Formatting.Indented);
         var newNetwork = JsonConvert.DeserializeObject<JsonNetwork>(json);
         var newJson = JsonConvert.SerializeObject(newNetwork, Formatting.Indented);
-        Debug.Assert(json == newJson);
 
         return json;
     }
-    
+
     #endregion
 }
