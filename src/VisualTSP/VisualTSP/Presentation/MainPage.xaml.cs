@@ -1,4 +1,8 @@
-﻿namespace VisualTSP.Presentation;
+﻿using Microsoft.UI.Xaml.Shapes;
+using VisualTSP.Models;
+using Path = System.IO.Path;
+
+namespace VisualTSP.Presentation;
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -29,6 +33,24 @@ public sealed partial class MainPage : INotifyPropertyChanged
     {
         _currPoint = e.GetCurrentPoint(null);
         MousePos.Text = $"({_currPoint.Position.X:0}, {_currPoint.Position.Y:0})@{((CompositeTransform) Surface.RenderTransform).ScaleX}";
+
+        if (_isLinking)
+        {
+            _linkPreview.X2 = _currPoint.Position.X;
+            _linkPreview.Y2 = _currPoint.Position.Y;
+        }
+    }
+
+    private void Canvas_OnPointerDown(object sender, PointerRoutedEventArgs e)
+    {
+        if (!_isLinking)
+        {
+            return;
+        }
+
+        // cancel link creation
+        _isLinking = false;
+        Surface.Children.Remove(_linkPreview);
     }
 
     #region Shape
@@ -56,6 +78,30 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void Shape_OnMouseDown(object sender, PointerRoutedEventArgs e)
     {
+        var node = (VisualNode) sender;
+
+        if (_isLinking)
+        {
+            _isLinking = false;
+            Surface.Children.Remove(_linkPreview);
+
+            var link = new VisualLink()
+            {
+                Link = new Link
+                {
+                    Start = _linkStart.Node.Id,
+                    End = node.Node.Id,
+                },
+                X1 = Canvas.GetLeft(_linkStart) + _linkStart.ActualWidth / 2,
+                Y1 = Canvas.GetTop(_linkStart) + _linkStart.ActualHeight / 2,
+                X2 = Canvas.GetLeft(node) + node.ActualWidth / 2,
+                Y2 = Canvas.GetTop(node) + node.ActualHeight / 2
+            };
+            Surface.Children.Add(link);
+
+            return;
+        }
+
         // start dragging
         _drag = true;
 
@@ -63,7 +109,6 @@ public sealed partial class MainPage : INotifyPropertyChanged
         _startPoint = e.GetCurrentPoint(Surface);
 
         // move selected circle to the top of the Z order
-        var node = (VisualNode) sender;
         Canvas.SetZIndex(node, _currZindex++);
     }
 
@@ -223,7 +268,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         link.ContextFlyout = EditLinkMenu;
     }
 
-    #region StartNode +EndNode
+    #region StartNode + EndNode
 
     private Guid _startNode;
     private Guid _endNode;
@@ -278,9 +323,24 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     #endregion
 
+    private bool _isLinking;
+    private VisualNode _linkStart;
+    private Line _linkPreview;
+
     private void AddLink(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        _isLinking = true;
+        _linkStart = (VisualNode) EditNodeMenu.Target;
+        _linkPreview = new Line()
+        {
+            Stroke = "Black",
+            StrokeThickness = 4d,
+            X1 = _currPoint.Position.X,
+            Y1 = _currPoint.Position.Y,
+            X2 = _currPoint.Position.X,
+            Y2 = _currPoint.Position.Y
+        };
+        Surface.Children.Add(_linkPreview);
     }
 
     private async void EditNode(object sender, RoutedEventArgs e)

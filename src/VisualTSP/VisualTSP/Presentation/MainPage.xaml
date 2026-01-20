@@ -50,7 +50,8 @@
                 x:Name="Surface"
                 Background="Transparent"
                 ContextFlyout="{StaticResource AddNodeMenu}"
-                PointerMoved="Canvas_OnPointerMoved">
+                PointerMoved="Canvas_OnPointerMoved"
+                PointerPressed="Canvas_OnPointerDown">
 
                 <Canvas.RenderTransform>
                     <CompositeTransform
