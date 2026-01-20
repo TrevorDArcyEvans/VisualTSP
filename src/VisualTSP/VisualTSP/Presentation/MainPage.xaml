@@ -43,7 +43,7 @@
         <!-- canvas -->
         <Grid BorderBrush="Black" BorderThickness="1">
             <Canvas
-                x:Name="Canvas"
+                x:Name="Surface"
                 Background="Transparent"
                 ContextFlyout="{StaticResource AddNodeMenu}"
                 PointerMoved="Canvas_OnPointerMoved">

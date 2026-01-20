@@ -1,5 +1,5 @@
 ﻿namespace VisualTSP.Presentation;
-  
+
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -7,6 +7,8 @@ using System.Web;
 using Windows.UI.Input;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Input;
+using Models;
+using Newtonsoft.Json;
 
 public sealed partial class MainPage : INotifyPropertyChanged
 {
@@ -27,7 +29,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
     private void Canvas_OnPointerMoved(object sender, PointerRoutedEventArgs e)
     {
         _currPoint = e.GetCurrentPoint(null);
-        MousePos.Text = $"({_currPoint.Position.X:0}, {_currPoint.Position.Y:0})@{((CompositeTransform) Canvas.RenderTransform).ScaleX}";
+        MousePos.Text = $"({_currPoint.Position.X:0}, {_currPoint.Position.Y:0})@{((CompositeTransform) Surface.RenderTransform).ScaleX}";
     }
 
     #region Shape
@@ -50,7 +52,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         node.Fill = node.Stroke = new SolidColorBrush(Colors.Chartreuse);
 
         // remove canvas CSM otherwise we get it displayed along with shape CSM
-        Canvas.ContextFlyout = null;
+        Surface.ContextFlyout = null;
     }
 
     private void Shape_OnMouseDown(object sender, PointerRoutedEventArgs e)
@@ -59,7 +61,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         _drag = true;
 
         // save start point of dragging
-        _startPoint = e.GetCurrentPoint(Canvas);
+        _startPoint = e.GetCurrentPoint(Surface);
 
         // move selected circle to the top of the Z order
         var draggedCircle = (VisualNode) sender;
@@ -77,7 +79,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var draggedCircle = (VisualNode) sender;
         var left = Canvas.GetLeft(draggedCircle);
         var top = Canvas.GetTop(draggedCircle);
-        var newPoint = e.GetCurrentPoint(Canvas);
+        var newPoint = e.GetCurrentPoint(Surface);
         Canvas.SetLeft(draggedCircle, left + (newPoint.RawPosition.X - _startPoint.RawPosition.X));
         Canvas.SetTop(draggedCircle, top + (newPoint.RawPosition.Y - _startPoint.RawPosition.Y));
 
@@ -119,7 +121,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         node.Stroke = _oldStroke;
 
         // restore canvas CSM
-        Canvas.ContextFlyout = AddNodeMenu;
+        Surface.ContextFlyout = AddNodeMenu;
     }
 
     #endregion
@@ -130,21 +132,21 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void Zoom_In(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Canvas.RenderTransform;
+        var ct = (CompositeTransform) Surface.RenderTransform;
         ct.ScaleX += ZoomInc;
         ct.ScaleY += ZoomInc;
     }
 
     private void Zoom_Fit(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Canvas.RenderTransform;
+        var ct = (CompositeTransform) Surface.RenderTransform;
         ct.ScaleX = 1.0;
         ct.ScaleY = 1.0;
     }
 
     private void Zoom_Out(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Canvas.RenderTransform;
+        var ct = (CompositeTransform) Surface.RenderTransform;
         ct.ScaleX -= ZoomInc;
         ct.ScaleY -= ZoomInc;
     }
@@ -157,31 +159,31 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void Translate_Up(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Canvas.RenderTransform;
+        var ct = (CompositeTransform) Surface.RenderTransform;
         ct.TranslateY -= TranslateInc;
     }
 
     private void Translate_Down(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Canvas.RenderTransform;
+        var ct = (CompositeTransform) Surface.RenderTransform;
         ct.TranslateY += TranslateInc;
     }
 
     private void Translate_Left(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Canvas.RenderTransform;
+        var ct = (CompositeTransform) Surface.RenderTransform;
         ct.TranslateX -= TranslateInc;
     }
 
     private void Translate_Right(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Canvas.RenderTransform;
+        var ct = (CompositeTransform) Surface.RenderTransform;
         ct.TranslateX += TranslateInc;
     }
 
     private void Translate_Reset(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Canvas.RenderTransform;
+        var ct = (CompositeTransform) Surface.RenderTransform;
         ct.TranslateX = 0;
         ct.TranslateY = 0;
     }
@@ -191,22 +193,35 @@ public sealed partial class MainPage : INotifyPropertyChanged
     private void AddNode(object sender, RoutedEventArgs e)
     {
         var node = new VisualNode();
+        ConnectListeners(node);
+
+        Canvas.SetLeft(node, _currPoint.Position.X);
+        Canvas.SetTop(node, _currPoint.Position.Y);
+
+        Surface.Add(node);
+    }
+
+    private void ConnectListeners(VisualNode node)
+    {
         node.PointerEntered += Shape_OnMouseEntered;
         node.PointerPressed += Shape_OnMouseDown;
         node.PointerMoved += Shape_OnMouseMove;
         node.PointerReleased += Shape_OnMouseUp;
         node.PointerExited += Shape_OnMouseExited;
         node.ContextFlyout = EditNodeMenu;
+    }
 
-        Canvas.SetLeft(node, _currPoint.Position.X);
-        Canvas.SetTop(node, _currPoint.Position.Y);
-
-        Canvas.Add(node);
+    private void ConnectListeners(VisualLink link)
+    {
+        link.PointerEntered += Shape_OnMouseEntered;
+        link.PointerExited += Shape_OnMouseExited;
+        link.ContextFlyout = EditLinkMenu;
     }
 
     #region StartNode
 
     private VisualNode _startNode;
+    private VisualNode _endNode;
 
     public bool IsStart
     {
@@ -255,14 +270,14 @@ public sealed partial class MainPage : INotifyPropertyChanged
     {
         var node = (VisualNode) EditNodeMenu.Target;
         DeleteAssociatedLinks((node));
-        Canvas.Children.Remove(node);
+        Surface.Children.Remove(node);
     }
 
     private void DeleteAssociatedLinks(VisualNode node)
     {
         if (node == Node1 || node == Node2)
         {
-            Canvas.Children.Remove(Link12);
+            Surface.Children.Remove(Link12);
         }
     }
 
@@ -279,7 +294,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
     private void DeleteLink(object sender, RoutedEventArgs e)
     {
         var link = (VisualLink) EditLinkMenu.Target;
-        Canvas.Children.Remove(link);
+        Surface.Children.Remove(link);
     }
 
     private async void OnOpen(object sender, RoutedEventArgs e)
@@ -296,7 +311,42 @@ public sealed partial class MainPage : INotifyPropertyChanged
             return;
         }
 
-        Debug.WriteLine($"Selected file:  {file.Name}");
+        // spaces are html escaped as %20 etc
+        var filePath = HttpUtility.UrlDecode(file.Path);
+
+        // add extension if user hasn't
+        filePath = Path.ChangeExtension(filePath, ".tsp");
+
+        // update file variable
+        file = await StorageFile.GetFileFromPathAsync(filePath);
+
+        var json = await FileIO.ReadTextAsync(file);
+        var network = JsonConvert.DeserializeObject<JsonNetwork>(json);
+
+        LoadNetwork(network);
+    }
+
+    private void LoadNetwork(JsonNetwork network)
+    {
+        var nodes = network.Nodes.Select(x =>
+        {
+            var visNode = new VisualNode(x);
+            ConnectListeners(visNode);
+            return visNode;
+        });
+        var links = network.Links.Select(x =>
+        {
+            var visLink = new VisualLink(x);
+            ConnectListeners(visLink);
+            return visLink;
+        });
+        _startNode = new VisualNode(network.Start);
+        _endNode = new VisualNode(network.End);
+
+        Surface.Children.Clear();
+
+        Surface.Children.AddRange(links);
+        Surface.Children.AddRange(nodes);
     }
 
     private async void OnSave(object sender, RoutedEventArgs e)
@@ -310,7 +360,6 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var file = await savePicker.PickSaveFileAsync();
         if (file == null)
         {
-            Debug.WriteLine("Operation cancelled.");
             return;
         }
 
@@ -321,21 +370,23 @@ public sealed partial class MainPage : INotifyPropertyChanged
         {
             // spaces are html escaped as %20 etc
             var filePath = HttpUtility.UrlDecode(file.Path);
-            
+
             // add extension if user hasn't
             filePath = Path.ChangeExtension(filePath, ".tsp");
-            
+
             // update file variable
             file = await StorageFile.GetFileFromPathAsync(filePath);
-            
+
             // create file in target folder
             var folder = Path.GetDirectoryName(file.Path);
             var storFolder = await StorageFolder.GetFolderFromPathAsync(folder);
             await storFolder.CreateFileAsync(file.Name, CreationCollisionOption.ReplaceExisting);
         }
 
+        var json = Serialize(file.DisplayName);
+
         // write to file
-        await FileIO.WriteTextAsync(file, "file contents");
+        await FileIO.WriteTextAsync(file, json);
 
         // Let Windows know that we're finished changing the file so
         // the other app can update the remote version of the file.
@@ -349,5 +400,94 @@ public sealed partial class MainPage : INotifyPropertyChanged
         {
             Debug.WriteLine($"File {file.Name} couldn't be saved.");
         }
+    }
+
+    private string Serialize(string fileName)
+    {
+        var links = Surface.Children.OfType<VisualLink>().Select(x => new JsonLink(x)).ToList();
+        var nodes = Surface.Children.OfType<VisualNode>().Select(x => new JsonNode(x)).ToList();
+        var start = new JsonNode(_startNode);
+        var end = new JsonNode(_startNode);
+        var network = new JsonNetwork(start, end)
+        {
+            Name = fileName,
+            Nodes = nodes,
+            Links = links
+        };
+
+        var json = JsonConvert.SerializeObject(network, Formatting.Indented);
+        var newNetwork = JsonConvert.DeserializeObject<JsonNetwork>(json);
+        var newJson = JsonConvert.SerializeObject(newNetwork, Formatting.Indented);
+        Debug.Assert(json == newJson);
+
+        return json;
+    }
+}
+
+public sealed class JsonLink
+{
+    public int X1 { get; set; }
+    public int Y1 { get; set; }
+    public int X2 { get; set; }
+    public int Y2 { get; set; }
+
+    public Link Link { get; set; }
+
+    public JsonLink(VisualLink link)
+    {
+        Link = link.Link;
+
+        X1 = (int) link.X1;
+        Y1 = (int) link.Y1;
+        X2 = (int) link.X2;
+        Y2 = (int) link.Y2;
+    }
+
+    // JSON deserialisation constructor
+    public JsonLink()
+    {
+    }
+}
+
+public sealed class JsonNode
+{
+    public int Top { get; set; }
+    public int Left { get; set; }
+
+    public Node Node { get; set; }
+
+    public JsonNode(VisualNode node)
+    {
+        Node = node.Node;
+
+        Top = (int) Canvas.GetTop(node);
+        Left = (int) Canvas.GetLeft(node);
+    }
+
+    // JSON deserialisation constructor
+    public JsonNode()
+    {
+    }
+}
+
+public sealed class JsonNetwork
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Name { get; set; }
+    public List<JsonNode> Nodes { get; set; }
+    public List<JsonLink> Links { get; set; }
+
+    public JsonNode Start { get; set; }
+    public JsonNode End { get; set; }
+
+    public JsonNetwork(JsonNode start, JsonNode end)
+    {
+        Start = start;
+        End = end;
+    }
+
+    // JSON deserialisation constructor
+    public JsonNetwork()
+    {
     }
 }

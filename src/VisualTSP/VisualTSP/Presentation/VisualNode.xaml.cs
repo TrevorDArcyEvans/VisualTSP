@@ -1,10 +1,25 @@
 ﻿namespace VisualTSP.Presentation;
 
+using Models;
+
 public sealed partial class VisualNode : UserControl, IHighlightable
 {
+    public Node Node { get; set; } = new() {Name = "New Node"};
+
     public VisualNode()
     {
         InitializeComponent();
+        UpdateToolTip();
+    }
+
+    public VisualNode(JsonNode node) :
+        this()
+    {
+        Node = node.Node;
+        Canvas.SetLeft(this, node.Left);
+        Canvas.SetTop(this, node.Top);
+        
+        DisplayName.Text = Node.Name;
         UpdateToolTip();
     }
 
