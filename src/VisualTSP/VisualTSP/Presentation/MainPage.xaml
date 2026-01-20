@@ -209,11 +209,11 @@
 
                 <Button
                     Content="Open..."
-                    Click="OnOpen"/>
+                    Click="OnOpen" />
                 <Button
                     Grid.Row="2"
                     Content="Save..."
-                     Click="OnSave"/>
+                    Click="OnSave" />
             </Grid>
         </Grid>
     </Grid>
