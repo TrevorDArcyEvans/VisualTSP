@@ -13,6 +13,7 @@
             x:Name="Shape"
             x:FieldModifier="public"
             Fill="DodgerBlue"
+            IsHitTestVisible="False"
             Width="50"
             Height="50" />
         <TextBlock
