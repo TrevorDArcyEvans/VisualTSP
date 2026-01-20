@@ -2,6 +2,7 @@
 
 using Microsoft.UI.Xaml.Shapes;
 using Models;
+using Serialisation;
 
 public sealed class VisualLink : Line, IHighlightable
 {

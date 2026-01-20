@@ -7,8 +7,8 @@ using System.Web;
 using Windows.UI.Input;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Input;
-using Models;
 using Newtonsoft.Json;
+using Serialisation;
 
 public sealed partial class MainPage : INotifyPropertyChanged
 {
@@ -297,6 +297,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
         Surface.Children.Remove(link);
     }
 
+    #region Serialisation/Deserialisation
+    
     private async void OnOpen(object sender, RoutedEventArgs e)
     {
         var picker = new Windows.Storage.Pickers.FileOpenPicker
@@ -422,72 +424,6 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
         return json;
     }
-}
-
-public sealed class JsonLink
-{
-    public int X1 { get; set; }
-    public int Y1 { get; set; }
-    public int X2 { get; set; }
-    public int Y2 { get; set; }
-
-    public Link Link { get; set; }
-
-    public JsonLink(VisualLink link)
-    {
-        Link = link.Link;
-
-        X1 = (int) link.X1;
-        Y1 = (int) link.Y1;
-        X2 = (int) link.X2;
-        Y2 = (int) link.Y2;
-    }
-
-    // JSON deserialisation constructor
-    public JsonLink()
-    {
-    }
-}
-
-public sealed class JsonNode
-{
-    public int Top { get; set; }
-    public int Left { get; set; }
-
-    public Node Node { get; set; }
-
-    public JsonNode(VisualNode node)
-    {
-        Node = node.Node;
-
-        Top = (int) Canvas.GetTop(node);
-        Left = (int) Canvas.GetLeft(node);
-    }
-
-    // JSON deserialisation constructor
-    public JsonNode()
-    {
-    }
-}
-
-public sealed class JsonNetwork
-{
-    public Guid Id { get; set; } = Guid.NewGuid();
-    public string Name { get; set; }
-    public List<JsonNode> Nodes { get; set; }
-    public List<JsonLink> Links { get; set; }
-
-    public JsonNode Start { get; set; }
-    public JsonNode End { get; set; }
-
-    public JsonNetwork(JsonNode start, JsonNode end)
-    {
-        Start = start;
-        End = end;
-    }
-
-    // JSON deserialisation constructor
-    public JsonNetwork()
-    {
-    }
+    
+    #endregion
 }
