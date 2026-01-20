@@ -24,7 +24,7 @@ public partial class NodeNameDialog
 
     private void OnOkClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
-        _node.DisplayName.Text = DisplayName.Text;
+        _node.DisplayName.Text = _node.Node.Name = DisplayName.Text;
         _node.UpdateToolTip();
     }
 }
