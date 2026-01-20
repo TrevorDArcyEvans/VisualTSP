@@ -82,25 +82,31 @@ public sealed partial class MainPage : INotifyPropertyChanged
         Canvas.SetLeft(draggedCircle, left + (newPoint.RawPosition.X - _startPoint.RawPosition.X));
         Canvas.SetTop(draggedCircle, top + (newPoint.RawPosition.Y - _startPoint.RawPosition.Y));
 
-        UpdateLine(draggedCircle);
+        UpdateLinks(node);
 
         // save where we end up
         _startPoint = newPoint;
     }
 
-    private void UpdateLine(VisualNode node)
+    private void UpdateLinks(VisualNode node)
     {
         // have to use ActualWidth/Height since composite control
-        if (node == Node1)
+        var linksStarts = Surface.Children
+            .OfType<VisualLink>()
+            .Where(x => x.Link.Start == node.Node.Id);
+        foreach (var link in linksStarts)
         {
-            Link12.X1 = Canvas.GetLeft(Node1) + Node1.ActualWidth / 2;
-            Link12.Y1 = Canvas.GetTop(Node1) + Node1.ActualHeight / 2;
+            link.X1 = Canvas.GetLeft(node) + node.ActualWidth / 2;
+            link.Y1 = Canvas.GetTop(node) + node.ActualHeight / 2;
         }
 
-        if (node == Node2)
+        var linksEnds = Surface.Children
+            .OfType<VisualLink>()
+            .Where(x => x.Link.End == node.Node.Id);
+        foreach (var link in linksEnds)
         {
-            Link12.X2 = Canvas.GetLeft(Node2) + Node2.ActualWidth / 2;
-            Link12.Y2 = Canvas.GetTop(Node2) + Node2.ActualHeight / 2;
+            link.X2 = Canvas.GetLeft(node) + node.ActualWidth / 2;
+            link.Y2 = Canvas.GetTop(node) + node.ActualHeight / 2;
         }
     }
 
@@ -296,9 +302,12 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void DeleteAssociatedLinks(VisualNode node)
     {
-        if (node == Node1 || node == Node2)
+        var links = Surface.Children
+            .OfType<VisualLink>()
+            .Where(x => x.Link.Start == node.Node.Id || x.Link.End == node.Node.Id);
+        foreach (var link in links)
         {
-            Surface.Children.Remove(Link12);
+            Surface.Children.Remove(link);
         }
     }
 

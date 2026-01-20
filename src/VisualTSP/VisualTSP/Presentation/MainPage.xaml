@@ -60,7 +60,6 @@
 
                 <!-- First child -->
                 <presentation:VisualNode
-                    x:Name="Node1"
                     PointerEntered="Shape_OnMouseEntered"
                     PointerPressed="Shape_OnMouseDown"
                     PointerMoved="Shape_OnMouseMove"
@@ -70,7 +69,6 @@
 
                 <!-- Second child -->
                 <presentation:VisualNode
-                    x:Name="Node2"
                     PointerEntered="Shape_OnMouseEntered"
                     PointerPressed="Shape_OnMouseDown"
                     PointerMoved="Shape_OnMouseMove"
@@ -103,7 +101,6 @@
                     Canvas.Top="400" />
 
                 <presentation:VisualLink
-                    x:Name="Link12"
                     PointerEntered="Shape_OnMouseEntered"
                     PointerExited="Shape_OnMouseExited"
                     ContextFlyout="{StaticResource EditLinkMenu}"
