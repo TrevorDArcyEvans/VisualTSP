@@ -17,10 +17,12 @@
     <!-- Package Description -->
     <Description>Visual TSP powered by Uno Platform.</Description>
 
-    <!--
-      UnoFeatures are used to quickly add and manage features enabled for your app.
-      https://aka.platform.uno/singleproject-features
-    -->
+      <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+      <!--
+        UnoFeatures are used to quickly add and manage features enabled for your app.
+        https://aka.platform.uno/singleproject-features
+      -->
     <UnoFeatures>
       Material;
       Dsp;
