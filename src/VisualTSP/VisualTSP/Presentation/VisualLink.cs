@@ -12,7 +12,7 @@ public sealed class VisualLink : Line, IHighlightable
     {
         Stroke = "Black";
         StrokeThickness = 4d;
-        Tag = 0;
+        Tag = 10;
         UpdateToolTip();
         Canvas.SetZIndex(this, -1);
     }
