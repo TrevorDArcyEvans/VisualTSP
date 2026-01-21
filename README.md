@@ -24,6 +24,57 @@ dotnet build
 # run
 dotnet run --net10.0-desktop
 ```
+# Usage
+
+<details>
+
+Most functionality can be accessed via a context sensitive menu aka right mouse button menu.
+
+* add node
+  * RMB on a blank space
+
+![Screenshot02](media/Screenshot02.png)
+
+* node operations
+  * edit name
+  * delete (will also delete attached links)
+  * mark as start/end
+
+![Screenshot03](media/Screenshot03.png)
+
+* link operations
+  * edit cost
+  * delete
+
+![Screenshot04](media/Screenshot04.png)
+
+* view manipulations
+  * zoom in/out/reset
+  * pan left/right/up/down/reset
+  
+![Screenshot05](media/Screenshot05.png)
+
+* file operations
+  * open
+  * save
+
+![Screenshot06](media/Screenshot06.png)
+
+</details>
+
+## Discussion
+
+### XAML serialisation
+
+<details>
+
+[How to save Canvas to JSON or XML in UWP?](https://learn.microsoft.com/en-us/answers/questions/1374191/how-to-save-canvas-to-json-or-xml-in-uwp)
+
+Since there is no `XamlWriter ` in UWP, and, hence, Uno, we have to go through `JsonNode`, `JsonLink` and `JsonNetwork`
+for our serialisation/deserialisation.  These classes shadow their corresponding `Visual*` classes and save enough
+information to allow recreation of the `Visual*` objects.
+
+</details>
 
 ## Further work
 * asymmetric link costs
