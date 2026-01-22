@@ -3,6 +3,9 @@ Create, solve and see
 [Travelling Salesman Problems](https://en.wikipedia.org/wiki/Travelling_salesman_problem)
 visually!
 
+    "Given a list of cities and the distances between each pair of cities, what is the
+    shortest possible route that visits each city exactly once and returns to the origin city?"
+
 ![Screenshot01](media/Screenshot01.png)
 
 ## Prerequisites
@@ -24,7 +27,9 @@ dotnet build
 # run
 dotnet run --net10.0-desktop
 ```
-# Usage
+Open one of the files in `Samples` folder
+
+## Usage
 
 <details>
 
@@ -63,6 +68,24 @@ Most functionality can be accessed via a context sensitive menu aka right mouse 
 </details>
 
 ## Discussion
+
+### Real world complications
+
+<details>
+
+* asymmetric link costs
+  * one side of road may have roadworks
+  * airfares to/from a destination are more expensive at start/end of
+  holiday season
+* time related asymmetric link costs
+  * rush hour in a city
+* time window restrictions
+  * destination may only be accessible at certain hours
+* total cost/time restrictions
+  * truck drivers working hours
+  * travel budget
+
+</details>
 
 ### XAML serialisation
 
