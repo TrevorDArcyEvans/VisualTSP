@@ -5,7 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:presentation="clr-namespace:VisualTSP.Presentation"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    xmlns:uen="using:Uno.Extensions.Navigation.UI"
+    xmlns:utu="using:Uno.Toolkit.UI">
     <Page.Resources>
         <MenuFlyout x:Key="AddNodeMenu" x:Name="AddNodeMenu">
             <MenuFlyoutItem Text="Add node" Click="AddNode" />
@@ -34,197 +36,233 @@
         </MenuFlyout>
     </Page.Resources>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+    <Grid uen:Region.Attached="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- canvas -->
-        <Grid BorderBrush="Black" BorderThickness="1">
-            <Canvas
-                x:Name="Surface"
-                Background="Transparent"
-                ContextFlyout="{StaticResource AddNodeMenu}"
-                PointerMoved="Canvas_OnPointerMoved"
-                PointerPressed="Canvas_OnPointerDown">
+        <Grid
+            uen:Region.Attached="True"
+            uen:Region.Navigator="Visibility">
 
-                <Canvas.RenderTransform>
-                    <CompositeTransform
-                        ScaleX="1"
-                        ScaleY="1" />
-                </Canvas.RenderTransform>
-
-                <!-- First child -->
-                <presentation:VisualNode
-                    PointerEntered="Shape_OnMouseEntered"
-                    PointerPressed="Shape_OnMouseDown"
-                    PointerMoved="Shape_OnMouseMove"
-                    PointerReleased="Shape_OnMouseUp"
-                    PointerExited="Shape_OnMouseExited"
-                    ContextFlyout="{StaticResource EditNodeMenu}" />
-
-                <!-- Second child -->
-                <presentation:VisualNode
-                    PointerEntered="Shape_OnMouseEntered"
-                    PointerPressed="Shape_OnMouseDown"
-                    PointerMoved="Shape_OnMouseMove"
-                    PointerReleased="Shape_OnMouseUp"
-                    PointerExited="Shape_OnMouseExited"
-                    ContextFlyout="{StaticResource EditNodeMenu}"
-                    Canvas.Left="200"
-                    Canvas.Top="200" />
-
-                <!-- Third child -->
-                <presentation:VisualNode
-                    PointerEntered="Shape_OnMouseEntered"
-                    PointerPressed="Shape_OnMouseDown"
-                    PointerMoved="Shape_OnMouseMove"
-                    PointerReleased="Shape_OnMouseUp"
-                    PointerExited="Shape_OnMouseExited"
-                    ContextFlyout="{StaticResource EditNodeMenu}"
-                    Canvas.Left="400"
-                    Canvas.Top="400" />
-
-                <!-- Fourth child -->
-                <presentation:VisualNode
-                    PointerEntered="Shape_OnMouseEntered"
-                    PointerPressed="Shape_OnMouseDown"
-                    PointerMoved="Shape_OnMouseMove"
-                    PointerReleased="Shape_OnMouseUp"
-                    PointerExited="Shape_OnMouseExited"
-                    ContextFlyout="{StaticResource EditNodeMenu}"
-                    Canvas.Left="600"
-                    Canvas.Top="400" />
-
-                <presentation:VisualLink
-                    PointerEntered="Shape_OnMouseEntered"
-                    PointerExited="Shape_OnMouseExited"
-                    ContextFlyout="{StaticResource EditLinkMenu}"
-                    X1="25"
-                    Y1="25"
-                    X2="225"
-                    Y2="225"
-                    Canvas.ZIndex="-1" />
-            </Canvas>
-        </Grid>
-
-        <!-- mouse pos -->
-        <Grid Row="1">
-            <TextBlock
-                x:Name="MousePos" />
-        </Grid>
-
-        <!-- view + file manipulation -->
-        <Grid Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="10" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="10" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <!-- zoom -->
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+            <!-- Visualisation -->
+            <Grid
+                uen:Region.Name="Visualisation"
+                Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    Content="+"
-                    ToolTipService.ToolTip="Zoom in"
-                    Click="Zoom_In" />
-                <Button
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    Content="0"
-                    ToolTipService.ToolTip="Reset"
-                    Click="Zoom_Fit" />
-                <Button
-                    Grid.Column="1"
-                    Grid.Row="2"
-                    Content="-"
-                    ToolTipService.ToolTip="Zoom out"
-                    Click="Zoom_Out" />
-            </Grid>
-
-            <!-- translate -->
-            <Grid Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Button
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Content="U"
-                    ToolTipService.ToolTip="Translate up"
-                    Click="Translate_Up" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Content="L"
-                    ToolTipService.ToolTip="Translate left"
-                    Click="Translate_Left" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Content="R"
-                    ToolTipService.ToolTip="Translate right"
-                    Click="Translate_Right" />
-                <Button
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Content="D"
-                    ToolTipService.ToolTip="Translate down"
-                    Click="Translate_Down" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Content="O"
-                    ToolTipService.ToolTip="Reset"
-                    Click="Translate_Reset" />
+
+                <!-- canvas -->
+                <Grid BorderBrush="Black" BorderThickness="1">
+                    <Canvas
+                        x:Name="Surface"
+                        Background="Transparent"
+                        ContextFlyout="{StaticResource AddNodeMenu}"
+                        PointerMoved="Canvas_OnPointerMoved"
+                        PointerPressed="Canvas_OnPointerDown">
+
+                        <Canvas.RenderTransform>
+                            <CompositeTransform
+                                ScaleX="1"
+                                ScaleY="1" />
+                        </Canvas.RenderTransform>
+
+                        <!-- First child -->
+                        <presentation:VisualNode
+                            PointerEntered="Shape_OnMouseEntered"
+                            PointerPressed="Shape_OnMouseDown"
+                            PointerMoved="Shape_OnMouseMove"
+                            PointerReleased="Shape_OnMouseUp"
+                            PointerExited="Shape_OnMouseExited"
+                            ContextFlyout="{StaticResource EditNodeMenu}" />
+
+                        <!-- Second child -->
+                        <presentation:VisualNode
+                            PointerEntered="Shape_OnMouseEntered"
+                            PointerPressed="Shape_OnMouseDown"
+                            PointerMoved="Shape_OnMouseMove"
+                            PointerReleased="Shape_OnMouseUp"
+                            PointerExited="Shape_OnMouseExited"
+                            ContextFlyout="{StaticResource EditNodeMenu}"
+                            Canvas.Left="200"
+                            Canvas.Top="200" />
+
+                        <!-- Third child -->
+                        <presentation:VisualNode
+                            PointerEntered="Shape_OnMouseEntered"
+                            PointerPressed="Shape_OnMouseDown"
+                            PointerMoved="Shape_OnMouseMove"
+                            PointerReleased="Shape_OnMouseUp"
+                            PointerExited="Shape_OnMouseExited"
+                            ContextFlyout="{StaticResource EditNodeMenu}"
+                            Canvas.Left="400"
+                            Canvas.Top="400" />
+
+                        <!-- Fourth child -->
+                        <presentation:VisualNode
+                            PointerEntered="Shape_OnMouseEntered"
+                            PointerPressed="Shape_OnMouseDown"
+                            PointerMoved="Shape_OnMouseMove"
+                            PointerReleased="Shape_OnMouseUp"
+                            PointerExited="Shape_OnMouseExited"
+                            ContextFlyout="{StaticResource EditNodeMenu}"
+                            Canvas.Left="600"
+                            Canvas.Top="400" />
+
+                        <presentation:VisualLink
+                            PointerEntered="Shape_OnMouseEntered"
+                            PointerExited="Shape_OnMouseExited"
+                            ContextFlyout="{StaticResource EditLinkMenu}"
+                            X1="25"
+                            Y1="25"
+                            X2="225"
+                            Y2="225"
+                            Canvas.ZIndex="-1" />
+                    </Canvas>
+                </Grid>
+
+                <!-- mouse pos -->
+                <Grid Row="1">
+                    <TextBlock
+                        x:Name="MousePos" />
+                </Grid>
+
+                <!-- view + file manipulation -->
+                <Grid Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- zoom -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Content="+"
+                            ToolTipService.ToolTip="Zoom in"
+                            Click="Zoom_In" />
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Content="0"
+                            ToolTipService.ToolTip="Reset"
+                            Click="Zoom_Fit" />
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            Content="-"
+                            ToolTipService.ToolTip="Zoom out"
+                            Click="Zoom_Out" />
+                    </Grid>
+
+                    <!-- translate -->
+                    <Grid Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Content="U"
+                            ToolTipService.ToolTip="Translate up"
+                            Click="Translate_Up" />
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Content="L"
+                            ToolTipService.ToolTip="Translate left"
+                            Click="Translate_Left" />
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Content="R"
+                            ToolTipService.ToolTip="Translate right"
+                            Click="Translate_Right" />
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Content="D"
+                            ToolTipService.ToolTip="Translate down"
+                            Click="Translate_Down" />
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Content="O"
+                            ToolTipService.ToolTip="Reset"
+                            Click="Translate_Reset" />
+                    </Grid>
+
+                    <!-- file operations -->
+                    <Grid
+                        Row="4"
+                        HorizontalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="10" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Button
+                            Content="Open..."
+                            Click="OnOpen" />
+                        <Button
+                            Grid.Row="2"
+                            Content="Save..."
+                            Click="OnSave" />
+                    </Grid>
+                </Grid>
             </Grid>
 
-            <!-- file operations -->
+            <!-- Calculation -->
             <Grid
-                Row="4"
-                HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="10" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <Button
-                    Content="Open..."
-                    Click="OnOpen" />
-                <Button
-                    Grid.Row="2"
-                    Content="Save..."
-                    Click="OnSave" />
+                uen:Region.Name="Calculation"
+                Visibility="Collapsed">
+                <TextBlock
+                    Text="TODO Calculation"
+                    FontSize="24"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
             </Grid>
         </Grid>
+
+        <utu:TabBar
+            Grid.Row="1"
+            uen:Region.Attached="True"
+            VerticalAlignment="Bottom">
+            <utu:TabBar.Items>
+                <utu:TabBarItem uen:Region.Name="Visualisation" Content="Visualisation" IsSelected="True" />
+                <utu:TabBarItem uen:Region.Name="Calculation" Content="Calculation" />
+            </utu:TabBar.Items>
+        </utu:TabBar>
     </Grid>
 
 </Page>

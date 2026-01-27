@@ -1,8 +1,4 @@
-﻿using Microsoft.UI.Xaml.Shapes;
-using VisualTSP.Models;
-using Path = System.IO.Path;
-
-namespace VisualTSP.Presentation;
+﻿namespace VisualTSP.Presentation;
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -10,8 +6,11 @@ using System.Web;
 using Windows.UI.Input;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Shapes;
 using Newtonsoft.Json;
 using Serialisation;
+using Models;
+using Path = Path;
 
 public sealed partial class MainPage : INotifyPropertyChanged
 {
