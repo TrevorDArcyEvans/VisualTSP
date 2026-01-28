@@ -37,12 +37,95 @@
     </Page.Resources>
 
     <Grid uen:Region.Attached="True">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- canvas -->
+            <Grid BorderBrush="Black" BorderThickness="1">
+                <Canvas
+                    x:Name="Surface"
+                    Background="Transparent"
+                    ContextFlyout="{StaticResource AddNodeMenu}"
+                    PointerMoved="Canvas_OnPointerMoved"
+                    PointerPressed="Canvas_OnPointerDown">
+
+                    <Canvas.RenderTransform>
+                        <CompositeTransform
+                            ScaleX="1"
+                            ScaleY="1" />
+                    </Canvas.RenderTransform>
+
+                    <!-- First child -->
+                    <presentation:VisualNode
+                        PointerEntered="Shape_OnMouseEntered"
+                        PointerPressed="Shape_OnMouseDown"
+                        PointerMoved="Shape_OnMouseMove"
+                        PointerReleased="Shape_OnMouseUp"
+                        PointerExited="Shape_OnMouseExited"
+                        ContextFlyout="{StaticResource EditNodeMenu}" />
+
+                    <!-- Second child -->
+                    <presentation:VisualNode
+                        PointerEntered="Shape_OnMouseEntered"
+                        PointerPressed="Shape_OnMouseDown"
+                        PointerMoved="Shape_OnMouseMove"
+                        PointerReleased="Shape_OnMouseUp"
+                        PointerExited="Shape_OnMouseExited"
+                        ContextFlyout="{StaticResource EditNodeMenu}"
+                        Canvas.Left="200"
+                        Canvas.Top="200" />
+
+                    <!-- Third child -->
+                    <presentation:VisualNode
+                        PointerEntered="Shape_OnMouseEntered"
+                        PointerPressed="Shape_OnMouseDown"
+                        PointerMoved="Shape_OnMouseMove"
+                        PointerReleased="Shape_OnMouseUp"
+                        PointerExited="Shape_OnMouseExited"
+                        ContextFlyout="{StaticResource EditNodeMenu}"
+                        Canvas.Left="400"
+                        Canvas.Top="400" />
+
+                    <!-- Fourth child -->
+                    <presentation:VisualNode
+                        PointerEntered="Shape_OnMouseEntered"
+                        PointerPressed="Shape_OnMouseDown"
+                        PointerMoved="Shape_OnMouseMove"
+                        PointerReleased="Shape_OnMouseUp"
+                        PointerExited="Shape_OnMouseExited"
+                        ContextFlyout="{StaticResource EditNodeMenu}"
+                        Canvas.Left="600"
+                        Canvas.Top="400" />
+
+                    <presentation:VisualLink
+                        PointerEntered="Shape_OnMouseEntered"
+                        PointerExited="Shape_OnMouseExited"
+                        ContextFlyout="{StaticResource EditLinkMenu}"
+                        X1="25"
+                        Y1="25"
+                        X2="225"
+                        Y2="225"
+                        Canvas.ZIndex="-1" />
+                </Canvas>
+            </Grid>
+
+            <!-- mouse pos -->
+            <Grid Row="1">
+                <TextBlock
+                    x:Name="MousePos" />
+            </Grid>
+        </Grid>
 
         <Grid
+            Grid.Column="1"
             uen:Region.Attached="True"
             uen:Region.Navigator="Visibility">
 
@@ -59,80 +142,6 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- canvas -->
-                <Grid BorderBrush="Black" BorderThickness="1">
-                    <Canvas
-                        x:Name="Surface"
-                        Background="Transparent"
-                        ContextFlyout="{StaticResource AddNodeMenu}"
-                        PointerMoved="Canvas_OnPointerMoved"
-                        PointerPressed="Canvas_OnPointerDown">
-
-                        <Canvas.RenderTransform>
-                            <CompositeTransform
-                                ScaleX="1"
-                                ScaleY="1" />
-                        </Canvas.RenderTransform>
-
-                        <!-- First child -->
-                        <presentation:VisualNode
-                            PointerEntered="Shape_OnMouseEntered"
-                            PointerPressed="Shape_OnMouseDown"
-                            PointerMoved="Shape_OnMouseMove"
-                            PointerReleased="Shape_OnMouseUp"
-                            PointerExited="Shape_OnMouseExited"
-                            ContextFlyout="{StaticResource EditNodeMenu}" />
-
-                        <!-- Second child -->
-                        <presentation:VisualNode
-                            PointerEntered="Shape_OnMouseEntered"
-                            PointerPressed="Shape_OnMouseDown"
-                            PointerMoved="Shape_OnMouseMove"
-                            PointerReleased="Shape_OnMouseUp"
-                            PointerExited="Shape_OnMouseExited"
-                            ContextFlyout="{StaticResource EditNodeMenu}"
-                            Canvas.Left="200"
-                            Canvas.Top="200" />
-
-                        <!-- Third child -->
-                        <presentation:VisualNode
-                            PointerEntered="Shape_OnMouseEntered"
-                            PointerPressed="Shape_OnMouseDown"
-                            PointerMoved="Shape_OnMouseMove"
-                            PointerReleased="Shape_OnMouseUp"
-                            PointerExited="Shape_OnMouseExited"
-                            ContextFlyout="{StaticResource EditNodeMenu}"
-                            Canvas.Left="400"
-                            Canvas.Top="400" />
-
-                        <!-- Fourth child -->
-                        <presentation:VisualNode
-                            PointerEntered="Shape_OnMouseEntered"
-                            PointerPressed="Shape_OnMouseDown"
-                            PointerMoved="Shape_OnMouseMove"
-                            PointerReleased="Shape_OnMouseUp"
-                            PointerExited="Shape_OnMouseExited"
-                            ContextFlyout="{StaticResource EditNodeMenu}"
-                            Canvas.Left="600"
-                            Canvas.Top="400" />
-
-                        <presentation:VisualLink
-                            PointerEntered="Shape_OnMouseEntered"
-                            PointerExited="Shape_OnMouseExited"
-                            ContextFlyout="{StaticResource EditLinkMenu}"
-                            X1="25"
-                            Y1="25"
-                            X2="225"
-                            Y2="225"
-                            Canvas.ZIndex="-1" />
-                    </Canvas>
-                </Grid>
-
-                <!-- mouse pos -->
-                <Grid Row="1">
-                    <TextBlock
-                        x:Name="MousePos" />
-                </Grid>
 
                 <!-- view + file manipulation -->
                 <Grid Column="1">
@@ -255,7 +264,7 @@
         </Grid>
 
         <utu:TabBar
-            Grid.Row="1"
+            Grid.Column="1"
             uen:Region.Attached="True"
             VerticalAlignment="Bottom">
             <utu:TabBar.Items>
