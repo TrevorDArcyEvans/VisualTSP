@@ -1,5 +1,5 @@
 ﻿{
-  "Id": "1a0029ad-256a-4b2f-b118-9de062101bf6",
+  "Id": "65b7b3e0-a2d0-452e-b9db-4ceac64bbd92",
   "Name": "New Document",
   "Nodes": [
     {
@@ -77,7 +77,7 @@
         "Id": "2fe97bfe-15f5-454f-b44b-bbc2fe3eb69b",
         "Start": "6beac651-a263-4c18-a18e-321267c4d320",
         "End": "b723b847-4e65-4610-8e94-f42a3f40aa9e",
-        "Cost": 10
+        "Cost": 5
       }
     },
     {
@@ -89,7 +89,7 @@
         "Id": "239ea865-471d-4be8-91af-7bcbf3e0ce00",
         "Start": "6beac651-a263-4c18-a18e-321267c4d320",
         "End": "58b13d5c-07a7-41ae-a8e7-578f126fa658",
-        "Cost": 10
+        "Cost": 5
       }
     },
     {
@@ -101,7 +101,7 @@
         "Id": "e319bcda-6d1f-4b51-a8fa-b7ad876bb940",
         "Start": "10ca2291-ed4d-40b7-a05f-d383bb7f0ab7",
         "End": "58b13d5c-07a7-41ae-a8e7-578f126fa658",
-        "Cost": 10
+        "Cost": 5
       }
     },
     {
