@@ -6,18 +6,20 @@ using Serialisation;
 
 public sealed class VisualLink : Line, IHighlightable
 {
+    public static Brush DefaultBrush = "Black";
+
     public Link Link { get; set; } = new();
 
     public VisualLink()
     {
-        Stroke = "Black";
+        Stroke = DefaultBrush;
         StrokeThickness = 4d;
         Tag = 10;
         UpdateToolTip();
         Canvas.SetZIndex(this, -1);
     }
 
-    public VisualLink(JsonLink link):
+    public VisualLink(JsonLink link) :
         this()
     {
         Link = link.Link;
@@ -25,7 +27,7 @@ public sealed class VisualLink : Line, IHighlightable
         Y1 = link.Y1;
         X2 = link.X2;
         Y2 = link.Y2;
-        
+
         Tag = Link.Cost;
         UpdateToolTip();
     }
