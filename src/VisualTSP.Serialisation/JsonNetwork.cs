@@ -1,3 +1,5 @@
+using VisualTSP.Models;
+
 namespace VisualTSP.Serialisation;
 
 public sealed class JsonNetwork
@@ -19,5 +21,18 @@ public sealed class JsonNetwork
     // JSON deserialisation constructor
     public JsonNetwork()
     {
+    }
+
+    public Network ToNetwork()
+    {
+        return new Network
+        {
+            Id = Id,
+            Name = Name,
+            Nodes = Nodes.Select(x => x.Node).ToList(),
+            Links = Links.Select(x => x.Link).ToList() ,
+            Start = Start,
+            End = End,
+        };
     }
 }
