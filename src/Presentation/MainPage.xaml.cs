@@ -244,7 +244,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         Canvas.SetLeft(node, _currPoint.Position.X);
         Canvas.SetTop(node, _currPoint.Position.Y);
 
-        Surface.Add(node);
+        Surface.Children.Add(node);
     }
 
     private void ConnectListeners(VisualNode node)
