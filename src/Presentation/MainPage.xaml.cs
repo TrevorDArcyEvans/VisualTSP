@@ -465,6 +465,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     #region Serialisation/Deserialisation
 
+    private Network _network = new();
+
     private async void OnOpen(object sender, RoutedEventArgs e)
     {
         var picker = new Windows.Storage.Pickers.FileOpenPicker
@@ -489,9 +491,13 @@ public sealed partial class MainPage : INotifyPropertyChanged
         file = await StorageFile.GetFileFromPathAsync(filePath);
 
         var json = await FileIO.ReadTextAsync(file);
-        var network = JsonConvert.DeserializeObject<JsonNetwork>(json);
+        var jsonNetwork = JsonConvert.DeserializeObject<JsonNetwork>(json);
 
-        LoadNetwork(network);
+        // everything else will be updated when we start solvers
+        _network.Id = jsonNetwork.Id;
+        _network.Name = jsonNetwork.Name;
+
+        LoadNetwork(jsonNetwork);
 
         var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
         appView.Title = $"{Package.Current.DisplayName} - {file.DisplayName}";
@@ -605,7 +611,9 @@ public sealed partial class MainPage : INotifyPropertyChanged
     {
     }
 
-    public float Temperature
+    #region simulated annealing
+
+    public float SimAnneal_Temperature
     {
         get;
 
@@ -621,7 +629,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         }
     } = 100;
 
-    public float Distance
+    public float SimAnneal_Distance
     {
         get;
 
@@ -636,6 +644,44 @@ public sealed partial class MainPage : INotifyPropertyChanged
             OnPropertyChanged();
         }
     } = 155;
+
+    #endregion
+
+    #region greedy solver
+
+    public int Greedy_Distance
+    {
+        get;
+
+        set
+        {
+            if (value.Equals(field))
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+        }
+    } = 255;
+
+    public bool Greedy_Show
+    {
+        get;
+
+        set
+        {
+            if (value == field)
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    #endregion
 
     public int InitialTemperature
     {

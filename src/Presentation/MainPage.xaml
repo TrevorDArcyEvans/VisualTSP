@@ -252,11 +252,11 @@
                         <TextBlock Text="Sim. Annealing" FontWeight="ExtraBlack" FontSize="18" />
                         <TextBlock>
                             <Run Text="Temp:  " />
-                            <Run Text="{x:Bind Temperature}" />
+                            <Run Text="{x:Bind SimAnneal_Temperature}" />
                         </TextBlock>
                         <TextBlock>
                             <Run Text="Dist:  " />
-                            <Run Text="{x:Bind Distance}" />
+                            <Run Text="{x:Bind SimAnneal_Distance}" />
                         </TextBlock>
                         <CheckBox Content="Reheat" />
                         <CheckBox Content="Use greedy route as start" />
@@ -270,9 +270,9 @@
                         <TextBlock Text="Greedy Solver" FontWeight="ExtraBlack" FontSize="18" />
                         <TextBlock>
                             <Run Text="Dist:  " />
-                            <Run Text="{x:Bind Distance}" />
+                            <Run Text="{x:Bind Greedy_Distance, Mode=TwoWay}" />
                         </TextBlock>
-                        <CheckBox Content="Show" />
+                        <CheckBox Content="Show" IsChecked="{x:Bind Greedy_Show, Mode=TwoWay}" />
                     </StackPanel>
 
                     <utu:Divider />
@@ -282,7 +282,7 @@
                         <TextBlock Text="Original" FontWeight="ExtraBlack" FontSize="18" />
                         <TextBlock>
                             <Run Text="Dist:  " />
-                            <Run Text="{x:Bind Distance}" />
+                            <Run Text="{x:Bind SimAnneal_Distance}" />
                         </TextBlock>
                         <CheckBox Content="Show" />
                     </StackPanel>
