@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Shapes;
 using Models;
 using Newtonsoft.Json;
 using Serialisation;
+using Solvers;
 using Path = Path;
 
 public sealed partial class MainPage : INotifyPropertyChanged
@@ -599,6 +600,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     #region Calculation
 
+    private bool IsSolving { get; set; }
+
     private void OnRestart(object sender, RoutedEventArgs e)
     {
     }
@@ -609,6 +612,21 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void OnPlayPause(object sender, RoutedEventArgs e)
     {
+        IsSolving = !IsSolving;
+
+        if (!IsSolving)
+        {
+            // stop solvers
+            return;
+        }
+
+        // update nodes, links & start+end nodes
+        _network.Nodes = Surface.Children.OfType<VisualNode>().Select((x => x.Node)).ToList();
+        _network.Links = Surface.Children.OfType<VisualLink>().Select((x => x.Link)).ToList();
+        _network.Start = StartNode;
+        _network.End = EndNode;
+
+        RunGreedySolver();
     }
 
     #region simulated annealing
@@ -679,6 +697,13 @@ public sealed partial class MainPage : INotifyPropertyChanged
             field = value;
             OnPropertyChanged();
         }
+    }
+
+    private void RunGreedySolver()
+    {
+        var greedy = new Greedy(_network);
+        var greedyRoute = greedy.Solve();
+        Greedy_Distance = greedyRoute.Sum(x => x.Cost);
     }
 
     #endregion
