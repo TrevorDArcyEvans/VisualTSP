@@ -155,7 +155,6 @@
 
                 <!-- translate -->
                 <Grid
-                    Row="1"
                     Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -199,13 +198,11 @@
                         Click="Translate_Reset" />
                 </Grid>
 
-                <utu:Divider Grid.Row="2" />
+                <utu:Divider />
 
                 <!-- file operations -->
                 <StackPanel
-                    Grid.Row="3"
                     HorizontalAlignment="Center">
-
                     <Button
                         Content="Open..."
                         Margin="10"
