@@ -147,47 +147,34 @@
                 <Grid Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="10" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="10" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <!-- zoom -->
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Margin="10">
                         <Button
-                            Grid.Column="1"
-                            Grid.Row="0"
                             Content="+"
                             ToolTipService.ToolTip="Zoom in"
                             Click="Zoom_In" />
                         <Button
-                            Grid.Column="1"
-                            Grid.Row="1"
                             Content="0"
                             ToolTipService.ToolTip="Reset"
                             Click="Zoom_Fit" />
                         <Button
-                            Grid.Column="1"
-                            Grid.Row="2"
                             Content="-"
                             ToolTipService.ToolTip="Zoom out"
                             Click="Zoom_Out" />
-                    </Grid>
+                    </StackPanel>
 
                     <!-- translate -->
-                    <Grid Row="2">
+                    <Grid
+                        Row="1"
+                        Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
@@ -230,24 +217,22 @@
                             Click="Translate_Reset" />
                     </Grid>
 
+                    <utu:Divider Grid.Row="2" />
+
                     <!-- file operations -->
-                    <Grid
-                        Row="4"
+                    <StackPanel
+                        Grid.Row="3"
                         HorizontalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="10" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
 
                         <Button
                             Content="Open..."
+                            Margin="10"
                             Click="OnOpen" />
                         <Button
-                            Grid.Row="2"
                             Content="Save..."
+                            Margin="10"
                             Click="OnSave" />
-                    </Grid>
+                    </StackPanel>
                 </Grid>
             </Grid>
 
