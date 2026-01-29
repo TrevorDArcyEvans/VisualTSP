@@ -521,5 +521,37 @@ public sealed partial class MainPage : INotifyPropertyChanged
     {
     }
 
+    public float Temperature
+    {
+        get;
+
+        set
+        {
+            if (value.Equals(field))
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+        }
+    } = 100;
+
+    public float Distance
+    {
+        get;
+
+        set
+        {
+            if (value.Equals(field))
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+        }
+    } = 155;
+
     #endregion
 }

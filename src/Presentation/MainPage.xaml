@@ -41,9 +41,13 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
         <!-- visual surface -->
-        <Grid>
+        <Grid Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -125,6 +129,7 @@
         </Grid>
 
         <Grid
+            Grid.Row="0"
             Grid.Column="1"
             uen:Region.Attached="True"
             uen:Region.Navigator="Visibility">
@@ -215,26 +220,78 @@
             </StackPanel>
 
             <!-- Calculation -->
-            <StackPanel
+            <ScrollViewer
                 uen:Region.Name="Calculation"
                 Visibility="Collapsed"
-                HorizontalAlignment="Center">
-                <Button
-                    Content="Restart"
-                    Margin="10"
-                    Click="OnRestart" />
-                <Button
-                    Content="Next Step"
-                    Margin="10"
-                    Click="OnNextStep" />
-                <Button
-                    Content="Play / Pause"
-                    Margin="10"
-                    Click="OnPlayPause" />
-            </StackPanel>
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto">
+                <StackPanel
+                    HorizontalAlignment="Center">
+
+                    <!-- control -->
+                    <StackPanel>
+                        <Button
+                            Content="Restart"
+                            Margin="10"
+                            Click="OnRestart" />
+                        <Button
+                            Content="Next Step"
+                            Margin="10"
+                            Click="OnNextStep" />
+                        <Button
+                            Content="Play / Pause"
+                            Margin="10"
+                            Click="OnPlayPause" />
+                    </StackPanel>
+
+                    <utu:Divider />
+
+                    <!-- simulated annealing -->
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Sim. Annealing" FontWeight="ExtraBlack" FontSize="18" />
+                        <TextBlock>
+                            <Run Text="Temp:  " />
+                            <Run Text="{x:Bind Temperature}" />
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="Dist:  " />
+                            <Run Text="{x:Bind Distance}" />
+                        </TextBlock>
+                        <CheckBox Content="Reheat" />
+                        <CheckBox Content="Use greedy route as start" />
+                        <CheckBox Content="Show" />
+                    </StackPanel>
+
+                    <utu:Divider />
+
+                    <!-- greedy solver -->
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Greedy Solver" FontWeight="ExtraBlack" FontSize="18" />
+                        <TextBlock>
+                            <Run Text="Dist:  " />
+                            <Run Text="{x:Bind Distance}" />
+                        </TextBlock>
+                        <CheckBox Content="Show" />
+                    </StackPanel>
+
+                    <utu:Divider />
+
+                    <!-- original -->
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Original" FontWeight="ExtraBlack" FontSize="18" />
+                        <TextBlock>
+                            <Run Text="Dist:  " />
+                            <Run Text="{x:Bind Distance}" />
+                        </TextBlock>
+                        <CheckBox Content="Show" />
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
         <utu:TabBar
+            Grid.Row="1"
             Grid.Column="1"
             uen:Region.Attached="True"
             VerticalAlignment="Bottom">
