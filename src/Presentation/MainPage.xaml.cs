@@ -360,9 +360,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var visNode = Surface.Children
             .OfType<VisualNode>()
             .Single(x => x.Node.Id == StartNode);
-        visNode.Shape.Stroke = new SolidColorBrush(Colors.Green);
-        visNode.Shape.StrokeDashArray = new DoubleCollection([1d]);
-        visNode.Shape.StrokeThickness = 10;
+        visNode.Start.Visibility = Visibility.Visible;
     }
 
     private void UnhighlightStartNode()
@@ -375,7 +373,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var visNode = Surface.Children
             .OfType<VisualNode>()
             .Single(x => x.Node.Id == StartNode);
-        visNode.Shape.StrokeThickness = 0;
+        visNode.Start.Visibility = Visibility.Collapsed;
     }
 
     private void HighlightEndNode()
@@ -383,9 +381,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var visNode = Surface.Children
             .OfType<VisualNode>()
             .Single(x => x.Node.Id == EndNode);
-        visNode.Shape.Stroke = new SolidColorBrush(Colors.Red);
-        visNode.Shape.StrokeDashArray = new DoubleCollection([6d, 1d]);
-        visNode.Shape.StrokeThickness = 5;
+        visNode.End.Visibility = Visibility.Visible;
     }
 
     private void UnhighlightEndNode()
@@ -398,7 +394,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var visNode = Surface.Children
             .OfType<VisualNode>()
             .Single(x => x.Node.Id == EndNode);
-        visNode.Shape.StrokeThickness = 0;
+        visNode.End.Visibility = Visibility.Collapsed;
     }
 
     #endregion

@@ -9,7 +9,13 @@
     d:DesignWidth="400">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <Ellipse
+            Grid.Row="0"
             x:Name="Shape"
             x:FieldModifier="public"
             Fill="DodgerBlue"
@@ -17,6 +23,7 @@
             Width="50"
             Height="50" />
         <TextBlock
+            Grid.Row="0"
             x:Name="DisplayName"
             x:FieldModifier="public"
             HorizontalAlignment="Center"
@@ -24,5 +31,20 @@
             MaxWidth="50"
             MaxHeight="50"
             Text="Some really long text" />
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center">
+            <SymbolIcon
+                x:Name="Start"
+                x:FieldModifier="public"
+                Symbol="Play"
+                Visibility="Collapsed" />
+            <SymbolIcon
+                x:Name="End"
+                x:FieldModifier="public"
+                Symbol="Stop"
+                Visibility="Collapsed" />
+        </StackPanel>
     </Grid>
 </UserControl>
