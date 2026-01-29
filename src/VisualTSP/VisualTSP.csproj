@@ -41,5 +41,11 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VisualTSP.Models\VisualTSP.Models.csproj" />
+  </ItemGroup>
 
 </Project>
