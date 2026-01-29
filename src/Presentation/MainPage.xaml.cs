@@ -501,8 +501,6 @@ public sealed partial class MainPage : INotifyPropertyChanged
         };
 
         var json = JsonConvert.SerializeObject(network, Formatting.Indented);
-        var newNetwork = JsonConvert.DeserializeObject<JsonNetwork>(json);
-        var newJson = JsonConvert.SerializeObject(newNetwork, Formatting.Indented);
 
         return json;
     }
