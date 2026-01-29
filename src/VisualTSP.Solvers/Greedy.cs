@@ -25,7 +25,7 @@ public class Greedy(Network network)
             Link minLink = default;
             Node closestNode = default;
 
-            var otherNodes = remainingNodes.Count > 1 ? remainingNodes.Except(endNode) : remainingNodes;
+            var otherNodes = remainingNodes.Count > 1 ? remainingNodes.Except([endNode]) : remainingNodes;
 
             foreach (var node in otherNodes)
             {
