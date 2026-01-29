@@ -9,14 +9,6 @@ public sealed class JsonNode
 
     public Node Node { get; set; }
 
-    public JsonNode(VisualNode node)
-    {
-        Node = node.Node;
-
-        Top = (int) Canvas.GetTop(node);
-        Left = (int) Canvas.GetLeft(node);
-    }
-
     // JSON deserialisation constructor
     public JsonNode()
     {

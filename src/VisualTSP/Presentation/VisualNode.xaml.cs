@@ -19,9 +19,19 @@ public sealed partial class VisualNode : UserControl, IHighlightable
         Node = node.Node;
         Canvas.SetLeft(this, node.Left);
         Canvas.SetTop(this, node.Top);
-        
+
         DisplayName.Text = Node.Name;
         UpdateToolTip();
+    }
+
+    public JsonNode ToJsonNode()
+    {
+        return new JsonNode
+        {
+            Node = Node,
+            Top = (int) Canvas.GetTop(this),
+            Left = (int) Canvas.GetLeft(this)
+        };
     }
 
     public Brush Fill

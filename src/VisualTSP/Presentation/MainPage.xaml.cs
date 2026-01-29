@@ -592,8 +592,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private string Serialize(string fileName)
     {
-        var links = Surface.Children.OfType<VisualLink>().Select(x => new JsonLink(x)).ToList();
-        var nodes = Surface.Children.OfType<VisualNode>().Select(x => new JsonNode(x)).ToList();
+        var links = Surface.Children.OfType<VisualLink>().Select(x => x.ToJsonLink()).ToList();
+        var nodes = Surface.Children.OfType<VisualNode>().Select(x => x.ToJsonNode()).ToList();
 
         var network = new JsonNetwork(StartNode, EndNode)
         {

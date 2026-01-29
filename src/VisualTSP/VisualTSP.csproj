@@ -42,11 +42,8 @@
     <PackageReference Include="Newtonsoft.Json"  Version="13.0.4" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Solvers\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\VisualTSP.Models\VisualTSP.Models.csproj" />
+    <ProjectReference Include="..\VisualTSP.Serialisation\VisualTSP.Serialisation.csproj" />
     <ProjectReference Include="..\VisualTSP.Solvers\VisualTSP.Solvers.csproj" />
   </ItemGroup>
 

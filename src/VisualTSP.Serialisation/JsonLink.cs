@@ -11,16 +11,6 @@ public sealed class JsonLink
 
     public Link Link { get; set; }
 
-    public JsonLink(VisualLink link)
-    {
-        Link = link.Link;
-
-        X1 = (int) link.X1;
-        Y1 = (int) link.Y1;
-        X2 = (int) link.X2;
-        Y2 = (int) link.Y2;
-    }
-
     // JSON deserialisation constructor
     public JsonLink()
     {

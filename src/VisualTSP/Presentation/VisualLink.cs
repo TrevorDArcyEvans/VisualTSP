@@ -32,6 +32,18 @@ public sealed class VisualLink : Line, IHighlightable
         UpdateToolTip();
     }
 
+    public JsonLink ToJsonLink()
+    {
+        return new JsonLink
+        {
+            Link = Link,
+            X1 = (int) X1,
+            Y1 = (int) Y1,
+            X2 = (int) X2,
+            Y2 = (int) Y2
+        };
+    }
+
     public void UpdateToolTip()
     {
         ToolTipService.SetToolTip(this, Tag);
