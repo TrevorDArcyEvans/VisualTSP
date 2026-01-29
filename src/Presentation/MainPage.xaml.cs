@@ -31,7 +31,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
     private void Canvas_OnPointerMoved(object sender, PointerRoutedEventArgs e)
     {
         _currPoint = e.GetCurrentPoint(null);
-        MousePos.Text = $"({_currPoint.Position.X:0}, {_currPoint.Position.Y:0})@{((CompositeTransform) Surface.RenderTransform).ScaleX}";
+        MousePos.Text = $"({_currPoint.Position.X:0}, {_currPoint.Position.Y:0})@{((CompositeTransform)Surface.RenderTransform).ScaleX}";
 
         if (_isLinking)
         {
@@ -56,13 +56,13 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private bool _drag;
     private PointerPoint _startPoint;
-    
+
     private Brush _oldColour;
     private Brush _oldStroke;
 
     private void Shape_OnMouseEntered(object sender, PointerRoutedEventArgs e)
     {
-        var node = (IHighlightable) sender;
+        var node = (IHighlightable)sender;
         _oldColour = node.Fill;
         _oldStroke = node.Stroke;
         node.Fill = node.Stroke = new SolidColorBrush(Colors.Chartreuse);
@@ -73,7 +73,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void Shape_OnMouseDown(object sender, PointerRoutedEventArgs e)
     {
-        var node = (VisualNode) sender;
+        var node = (VisualNode)sender;
 
         if (_isLinking)
         {
@@ -113,7 +113,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         }
 
         // if dragging, then adjust circle position based on mouse movement
-        var node = (VisualNode) sender;
+        var node = (VisualNode)sender;
         var left = Canvas.GetLeft(node);
         var top = Canvas.GetTop(node);
         var newPoint = e.GetCurrentPoint(Surface);
@@ -159,7 +159,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         // stop dragging
         _drag = false;
 
-        var item = (IHighlightable) sender;
+        var item = (IHighlightable)sender;
         item.Fill = _oldColour;
         item.Stroke = _oldStroke;
 
@@ -175,21 +175,21 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void Zoom_In(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Surface.RenderTransform;
+        var ct = (CompositeTransform)Surface.RenderTransform;
         ct.ScaleX += ZoomInc;
         ct.ScaleY += ZoomInc;
     }
 
     private void Zoom_Fit(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Surface.RenderTransform;
+        var ct = (CompositeTransform)Surface.RenderTransform;
         ct.ScaleX = 1.0;
         ct.ScaleY = 1.0;
     }
 
     private void Zoom_Out(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Surface.RenderTransform;
+        var ct = (CompositeTransform)Surface.RenderTransform;
         ct.ScaleX -= ZoomInc;
         ct.ScaleY -= ZoomInc;
     }
@@ -202,31 +202,31 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void Translate_Up(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Surface.RenderTransform;
+        var ct = (CompositeTransform)Surface.RenderTransform;
         ct.TranslateY -= TranslateInc;
     }
 
     private void Translate_Down(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Surface.RenderTransform;
+        var ct = (CompositeTransform)Surface.RenderTransform;
         ct.TranslateY += TranslateInc;
     }
 
     private void Translate_Left(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Surface.RenderTransform;
+        var ct = (CompositeTransform)Surface.RenderTransform;
         ct.TranslateX -= TranslateInc;
     }
 
     private void Translate_Right(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Surface.RenderTransform;
+        var ct = (CompositeTransform)Surface.RenderTransform;
         ct.TranslateX += TranslateInc;
     }
 
     private void Translate_Reset(object sender, RoutedEventArgs e)
     {
-        var ct = (CompositeTransform) Surface.RenderTransform;
+        var ct = (CompositeTransform)Surface.RenderTransform;
         ct.TranslateX = 0;
         ct.TranslateY = 0;
     }
@@ -300,18 +300,18 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void EditNodeMenu_OnOpening(object sender, object e)
     {
-        IsStart = ((VisualNode) EditNodeMenu.Target).Node.Id == _startNode;
-        IsEnd = ((VisualNode) EditNodeMenu.Target).Node.Id == _endNode;
+        IsStart = ((VisualNode)EditNodeMenu.Target).Node.Id == _startNode;
+        IsEnd = ((VisualNode)EditNodeMenu.Target).Node.Id == _endNode;
     }
 
     private void StartNode(object sender, RoutedEventArgs e)
     {
-        _startNode = ((VisualNode) EditNodeMenu.Target).Node.Id;
+        _startNode = ((VisualNode)EditNodeMenu.Target).Node.Id;
     }
 
     private void EndNode(object sender, RoutedEventArgs e)
     {
-        _endNode = ((VisualNode) EditNodeMenu.Target).Node.Id;
+        _endNode = ((VisualNode)EditNodeMenu.Target).Node.Id;
     }
 
     #endregion
@@ -323,7 +323,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
     private void AddLink(object sender, RoutedEventArgs e)
     {
         _isLinking = true;
-        _linkStart = (VisualNode) EditNodeMenu.Target;
+        _linkStart = (VisualNode)EditNodeMenu.Target;
         _linkPreview = new Line()
         {
             Stroke = "Black",
@@ -338,7 +338,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private async void EditNode(object sender, RoutedEventArgs e)
     {
-        var node = (VisualNode) EditNodeMenu.Target;
+        var node = (VisualNode)EditNodeMenu.Target;
         var dlg = new NodeNameDialog(node)
         {
             XamlRoot = XamlRoot
@@ -348,7 +348,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void DeleteNode(object sender, RoutedEventArgs e)
     {
-        var node = (VisualNode) EditNodeMenu.Target;
+        var node = (VisualNode)EditNodeMenu.Target;
         DeleteAssociatedLinks((node));
         Surface.Children.Remove(node);
     }
@@ -366,7 +366,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private async void EditLink(object sender, RoutedEventArgs e)
     {
-        var link = (VisualLink) EditLinkMenu.Target;
+        var link = (VisualLink)EditLinkMenu.Target;
         var dlg = new LinkCostDialog(link)
         {
             XamlRoot = XamlRoot
@@ -376,7 +376,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void DeleteLink(object sender, RoutedEventArgs e)
     {
-        var link = (VisualLink) EditLinkMenu.Target;
+        var link = (VisualLink)EditLinkMenu.Target;
         Surface.Children.Remove(link);
     }
 
@@ -444,7 +444,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
             SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary,
             SuggestedFileName = "New Document"
         };
-        savePicker.FileTypeChoices.Add("Travelling Salesman Problem (*.tsp)", (List<string>) [".tsp"]);
+        savePicker.FileTypeChoices.Add("Travelling Salesman Problem (*.tsp)", (List<string>)[".tsp"]);
         var file = await savePicker.PickSaveFileAsync();
         if (file == null)
         {
