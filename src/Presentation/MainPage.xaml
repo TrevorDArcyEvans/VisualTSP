@@ -42,6 +42,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
+        <!-- visual surface -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -130,110 +131,98 @@
             uen:Region.Navigator="Visibility">
 
             <!-- Visualisation -->
+            <!-- view + file manipulation -->
             <Grid
                 uen:Region.Name="Visualisation"
                 Visibility="Collapsed">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
+                <!-- zoom -->
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Margin="10">
+                    <Button
+                        Content="+"
+                        ToolTipService.ToolTip="Zoom in"
+                        Click="Zoom_In" />
+                    <Button
+                        Content="0"
+                        ToolTipService.ToolTip="Reset"
+                        Click="Zoom_Fit" />
+                    <Button
+                        Content="-"
+                        ToolTipService.ToolTip="Zoom out"
+                        Click="Zoom_Out" />
+                </StackPanel>
 
-                <!-- view + file manipulation -->
-                <Grid Column="1">
+                <!-- translate -->
+                <Grid
+                    Row="1"
+                    Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-
-                    <!-- zoom -->
-                    <StackPanel
-                        HorizontalAlignment="Center"
-                        Margin="10">
-                        <Button
-                            Content="+"
-                            ToolTipService.ToolTip="Zoom in"
-                            Click="Zoom_In" />
-                        <Button
-                            Content="0"
-                            ToolTipService.ToolTip="Reset"
-                            Click="Zoom_Fit" />
-                        <Button
-                            Content="-"
-                            ToolTipService.ToolTip="Zoom out"
-                            Click="Zoom_Out" />
-                    </StackPanel>
-
-                    <!-- translate -->
-                    <Grid
-                        Row="1"
-                        Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Button
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Content="U"
-                            ToolTipService.ToolTip="Translate up"
-                            Click="Translate_Up" />
-                        <Button
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Content="L"
-                            ToolTipService.ToolTip="Translate left"
-                            Click="Translate_Left" />
-                        <Button
-                            Grid.Row="1"
-                            Grid.Column="2"
-                            Content="R"
-                            ToolTipService.ToolTip="Translate right"
-                            Click="Translate_Right" />
-                        <Button
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Content="D"
-                            ToolTipService.ToolTip="Translate down"
-                            Click="Translate_Down" />
-                        <Button
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Content="O"
-                            ToolTipService.ToolTip="Reset"
-                            Click="Translate_Reset" />
-                    </Grid>
-
-                    <utu:Divider Grid.Row="2" />
-
-                    <!-- file operations -->
-                    <StackPanel
-                        Grid.Row="3"
-                        HorizontalAlignment="Center">
-
-                        <Button
-                            Content="Open..."
-                            Margin="10"
-                            Click="OnOpen" />
-                        <Button
-                            Content="Save..."
-                            Margin="10"
-                            Click="OnSave" />
-                    </StackPanel>
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Content="U"
+                        ToolTipService.ToolTip="Translate up"
+                        Click="Translate_Up" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Content="L"
+                        ToolTipService.ToolTip="Translate left"
+                        Click="Translate_Left" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Content="R"
+                        ToolTipService.ToolTip="Translate right"
+                        Click="Translate_Right" />
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Content="D"
+                        ToolTipService.ToolTip="Translate down"
+                        Click="Translate_Down" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Content="O"
+                        ToolTipService.ToolTip="Reset"
+                        Click="Translate_Reset" />
                 </Grid>
+
+                <utu:Divider Grid.Row="2" />
+
+                <!-- file operations -->
+                <StackPanel
+                    Grid.Row="3"
+                    HorizontalAlignment="Center">
+
+                    <Button
+                        Content="Open..."
+                        Margin="10"
+                        Click="OnOpen" />
+                    <Button
+                        Content="Save..."
+                        Margin="10"
+                        Click="OnSave" />
+                </StackPanel>
             </Grid>
 
             <!-- Calculation -->
