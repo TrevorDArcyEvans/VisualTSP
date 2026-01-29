@@ -7,9 +7,9 @@ using Windows.UI.Input;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
+using Models;
 using Newtonsoft.Json;
 using Serialisation;
-using Models;
 using Path = Path;
 
 public sealed partial class MainPage : INotifyPropertyChanged
@@ -359,8 +359,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
     {
         var visNode = Surface.Children
             .OfType<VisualNode>()
-            .Single(x => x.Node.Id == StartNode);
-        visNode.Start.Visibility = Visibility.Visible;
+            .SingleOrDefault(x => x.Node.Id == StartNode);
+        visNode?.Start.Visibility = Visibility.Visible;
     }
 
     private void UnhighlightStartNode()
@@ -372,16 +372,16 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
         var visNode = Surface.Children
             .OfType<VisualNode>()
-            .Single(x => x.Node.Id == StartNode);
-        visNode.Start.Visibility = Visibility.Collapsed;
+            .SingleOrDefault(x => x.Node.Id == StartNode);
+        visNode?.Start.Visibility = Visibility.Collapsed;
     }
 
     private void HighlightEndNode()
     {
         var visNode = Surface.Children
             .OfType<VisualNode>()
-            .Single(x => x.Node.Id == EndNode);
-        visNode.End.Visibility = Visibility.Visible;
+            .SingleOrDefault(x => x.Node.Id == EndNode);
+        visNode?.End.Visibility = Visibility.Visible;
     }
 
     private void UnhighlightEndNode()
@@ -393,8 +393,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
         var visNode = Surface.Children
             .OfType<VisualNode>()
-            .Single(x => x.Node.Id == EndNode);
-        visNode.End.Visibility = Visibility.Collapsed;
+            .SingleOrDefault(x => x.Node.Id == EndNode);
+        visNode?.End.Visibility = Visibility.Collapsed;
     }
 
     #endregion
@@ -515,6 +515,9 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
         Surface.Children.AddRange(links);
         Surface.Children.AddRange(nodes);
+
+        // reset nodes so events will definitely get fired
+        StartNode = EndNode = Guid.Empty;
 
         StartNode = network.Start;
         EndNode = network.End;
