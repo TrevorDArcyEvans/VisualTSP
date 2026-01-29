@@ -7,7 +7,8 @@
     xmlns:presentation="clr-namespace:VisualTSP.Presentation"
     mc:Ignorable="d"
     xmlns:uen="using:Uno.Extensions.Navigation.UI"
-    xmlns:utu="using:Uno.Toolkit.UI">
+    xmlns:utu="using:Uno.Toolkit.UI"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
     <Page.Resources>
         <MenuFlyout x:Key="AddNodeMenu" x:Name="AddNodeMenu">
             <MenuFlyoutItem Text="Add node" Click="AddNode" />
@@ -284,6 +285,83 @@
                             <Run Text="{x:Bind Distance}" />
                         </TextBlock>
                         <CheckBox Content="Show" />
+                    </StackPanel>
+
+                    <utu:Divider />
+
+                    <!-- advanced -->
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Advanced" FontWeight="ExtraBlack" FontSize="18" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Initial temp.:  " />
+                            <muxc:NumberBox
+                                Value="{x:Bind InitialTemperature, Mode=TwoWay}"
+                                SmallChange="1"
+                                LargeChange="10"
+                                Minimum="0"
+                                Maximum="200"
+                                SpinButtonPlacementMode="Inline" />
+                        </StackPanel>
+                        <TextBlock Text="Decay speed" />
+                        <Slider
+                            Value="{x:Bind RawDecaySpeed, Mode=TwoWay}"
+                            Minimum="-1500"
+                            Maximum="1500"
+                            IsThumbToolTipEnabled="False"
+                            Orientation="Horizontal" />
+
+                        <utu:Divider />
+
+                        <TextBlock Text="Reheat Settings" FontWeight="ExtraBlack" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Reheat temp.:  " />
+                            <muxc:NumberBox
+                                Value="0.005"
+                                SmallChange="0.001"
+                                LargeChange="10"
+                                Minimum="0"
+                                Maximum="1"
+                                SpinButtonPlacementMode="Inline" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Min. amount.:  " />
+                            <muxc:NumberBox
+                                Value="100"
+                                SmallChange="1"
+                                LargeChange="10"
+                                Minimum="0"
+                                Maximum="200"
+                                SpinButtonPlacementMode="Inline" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Max. amount:  " />
+                            <muxc:NumberBox
+                                Value="100"
+                                SmallChange="1"
+                                LargeChange="10"
+                                Minimum="0"
+                                Maximum="200"
+                                SpinButtonPlacementMode="Inline" />
+                        </StackPanel>
+
+                        <utu:Divider />
+
+                        <Button
+                            Content="Reset settings"
+                            Margin="10"
+                            HorizontalAlignment="Center" />
+
+                        <utu:Divider />
+
+                        <TextBlock Text="Information" FontWeight="ExtraBlack" />
+                        <TextBlock>
+                            <Run Text="Decay:  " />
+                            <Run Text="{x:Bind DecaySpeed, Mode=TwoWay}" />
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="Iteration #:  " />
+                            <Run Text="{x:Bind InitialTemperature, Mode=TwoWay}" />
+                        </TextBlock>
                     </StackPanel>
 
                 </StackPanel>

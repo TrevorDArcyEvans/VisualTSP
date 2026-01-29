@@ -17,6 +17,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
     public MainPage()
     {
         InitializeComponent();
+
+        PropertyChanged += OnPropertyChanged;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -553,5 +555,61 @@ public sealed partial class MainPage : INotifyPropertyChanged
         }
     } = 155;
 
+    public int InitialTemperature
+    {
+        get;
+
+        set
+        {
+            if (value.Equals(field))
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+        }
+    } = 100;
+
+    public int RawDecaySpeed
+    {
+        get;
+
+        set
+        {
+            if (value.Equals(field))
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+        }
+    } = 0;
+
+    public double DecaySpeed
+    {
+        get;
+
+        set
+        {
+            if (value.Equals(field))
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+        }
+    } = 0.99693;
+
     #endregion
+
+    private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(RawDecaySpeed))
+        {
+            DecaySpeed = (98470 + RawDecaySpeed) / 100000d;
+        }
+    }
 }
