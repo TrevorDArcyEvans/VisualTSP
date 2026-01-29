@@ -245,6 +245,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         Canvas.SetTop(node, _currPoint.Position.Y);
 
         Surface.Children.Add(node);
+        InvalidateSolvers();
     }
 
     private void ConnectListeners(VisualNode node)
@@ -418,6 +419,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
             Y2 = _currPoint.Position.Y
         };
         Surface.Children.Add(_linkPreview);
+        InvalidateSolvers();
     }
 
     private async void EditNode(object sender, RoutedEventArgs e)
@@ -435,6 +437,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var node = (VisualNode) EditNodeMenu.Target;
         DeleteAssociatedLinks((node));
         Surface.Children.Remove(node);
+        InvalidateSolvers();
     }
 
     private void DeleteAssociatedLinks(VisualNode node)
@@ -446,6 +449,8 @@ public sealed partial class MainPage : INotifyPropertyChanged
         {
             Surface.Children.Remove(link);
         }
+
+        InvalidateSolvers();
     }
 
     private async void EditLink(object sender, RoutedEventArgs e)
@@ -456,12 +461,18 @@ public sealed partial class MainPage : INotifyPropertyChanged
             XamlRoot = XamlRoot
         };
         await dlg.ShowAsync();
+
+        if (dlg.Result == ContentDialogResult.Primary)
+        {
+            InvalidateSolvers();
+        }
     }
 
     private void DeleteLink(object sender, RoutedEventArgs e)
     {
         var link = (VisualLink) EditLinkMenu.Target;
         Surface.Children.Remove(link);
+        InvalidateSolvers();
     }
 
     #region Serialisation/Deserialisation
@@ -629,6 +640,11 @@ public sealed partial class MainPage : INotifyPropertyChanged
         RunGreedySolver();
     }
 
+    private void InvalidateSolvers()
+    {
+        InvalidateGreedy();
+    }
+
     #region simulated annealing
 
     public float SimAnneal_Temperature
@@ -668,6 +684,16 @@ public sealed partial class MainPage : INotifyPropertyChanged
     #region greedy solver
 
     private readonly List<Link> _greedyRoute = new();
+
+    private void InvalidateGreedy()
+    {
+        // reset properties first as this will fire events
+        Greedy_Distance = 0;
+        Greedy_Show = false;
+
+        // finally clear route
+        _greedyRoute.Clear();
+    }
 
     public int Greedy_Distance
     {
@@ -717,7 +743,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
             .OfType<VisualLink>()
             .Where(x => greedyLinkIds.Contains(x.Link.Id))
             .ToList()
-            .ForEach(x => x.Stroke =hiColour);
+            .ForEach(x => x.Stroke = hiColour);
     }
 
     #endregion
@@ -782,11 +808,13 @@ public sealed partial class MainPage : INotifyPropertyChanged
         if (e.PropertyName == nameof(StartNode))
         {
             HighlightStartNode();
+            InvalidateSolvers();
         }
 
         if (e.PropertyName == nameof(EndNode))
         {
             HighlightEndNode();
+            InvalidateSolvers();
         }
 
         if (e.PropertyName == nameof(Greedy_Show))
