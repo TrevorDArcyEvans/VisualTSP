@@ -263,10 +263,49 @@ public sealed partial class MainPage : INotifyPropertyChanged
         link.ContextFlyout = EditLinkMenu;
     }
 
-    #region StartNode + EndNode
+    #region SetStartNode + SetEndNode
 
-    private Guid _startNode;
-    private Guid _endNode;
+    public Guid StartNode
+    {
+        get;
+
+        set
+        {
+            if (value.Equals(field))
+            {
+                return;
+            }
+
+            // remove previous highlight
+            UnhighlightStartNode();
+
+            field = value;
+
+            // will update node highlight
+            OnPropertyChanged();
+        }
+    }
+
+    public Guid EndNode
+    {
+        get;
+
+        set
+        {
+            if (value.Equals(field))
+            {
+                return;
+            }
+
+            // remove previous highlight
+            UnhighlightEndNode();
+
+            field = value;
+
+            // will update node highlight
+            OnPropertyChanged();
+        }
+    }
 
     public bool IsStart
     {
@@ -302,18 +341,64 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void EditNodeMenu_OnOpening(object sender, object e)
     {
-        IsStart = ((VisualNode)EditNodeMenu.Target).Node.Id == _startNode;
-        IsEnd = ((VisualNode)EditNodeMenu.Target).Node.Id == _endNode;
+        IsStart = ((VisualNode)EditNodeMenu.Target).Node.Id == StartNode;
+        IsEnd = ((VisualNode)EditNodeMenu.Target).Node.Id == EndNode;
     }
 
-    private void StartNode(object sender, RoutedEventArgs e)
+    private void SetStartNode(object sender, RoutedEventArgs e)
     {
-        _startNode = ((VisualNode)EditNodeMenu.Target).Node.Id;
+        StartNode = ((VisualNode)EditNodeMenu.Target).Node.Id;
     }
 
-    private void EndNode(object sender, RoutedEventArgs e)
+    private void SetEndNode(object sender, RoutedEventArgs e)
     {
-        _endNode = ((VisualNode)EditNodeMenu.Target).Node.Id;
+        EndNode = ((VisualNode)EditNodeMenu.Target).Node.Id;
+    }
+
+    private void HighlightStartNode()
+    {
+        var visNode = Surface.Children
+            .OfType<VisualNode>()
+            .Single(x => x.Node.Id == StartNode);
+        visNode.Shape.Stroke = new SolidColorBrush(Colors.Green);
+        visNode.Shape.StrokeDashArray = new DoubleCollection([1d]);
+        visNode.Shape.StrokeThickness = 10;
+    }
+
+    private void UnhighlightStartNode()
+    {
+        if (StartNode == Guid.Empty)
+        {
+            return;
+        }
+
+        var visNode = Surface.Children
+            .OfType<VisualNode>()
+            .Single(x => x.Node.Id == StartNode);
+        visNode.Shape.StrokeThickness = 0;
+    }
+
+    private void HighlightEndNode()
+    {
+        var visNode = Surface.Children
+            .OfType<VisualNode>()
+            .Single(x => x.Node.Id == EndNode);
+        visNode.Shape.Stroke = new SolidColorBrush(Colors.Red);
+        visNode.Shape.StrokeDashArray = new DoubleCollection([6d, 1d]);
+        visNode.Shape.StrokeThickness = 5;
+    }
+
+    private void UnhighlightEndNode()
+    {
+        if (EndNode == Guid.Empty)
+        {
+            return;
+        }
+
+        var visNode = Surface.Children
+            .OfType<VisualNode>()
+            .Single(x => x.Node.Id == EndNode);
+        visNode.Shape.StrokeThickness = 0;
     }
 
     #endregion
@@ -430,13 +515,13 @@ public sealed partial class MainPage : INotifyPropertyChanged
             ConnectListeners(visLink);
             return visLink;
         });
-        _startNode = network.Start;
-        _endNode = network.End;
-
         Surface.Children.Clear();
 
         Surface.Children.AddRange(links);
         Surface.Children.AddRange(nodes);
+
+        StartNode = network.Start;
+        EndNode = network.End;
     }
 
     private async void OnSave(object sender, RoutedEventArgs e)
@@ -493,7 +578,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
         var links = Surface.Children.OfType<VisualLink>().Select(x => new JsonLink(x)).ToList();
         var nodes = Surface.Children.OfType<VisualNode>().Select(x => new JsonNode(x)).ToList();
 
-        var network = new JsonNetwork(_startNode, _endNode)
+        var network = new JsonNetwork(StartNode, EndNode)
         {
             Name = fileName,
             Nodes = nodes,
@@ -608,6 +693,16 @@ public sealed partial class MainPage : INotifyPropertyChanged
         if (e.PropertyName == nameof(RawDecaySpeed))
         {
             DecaySpeed = (98470 + RawDecaySpeed) / 100000d;
+        }
+
+        if (e.PropertyName == nameof(StartNode))
+        {
+            HighlightStartNode();
+        }
+
+        if (e.PropertyName == nameof(EndNode))
+        {
+            HighlightEndNode();
         }
     }
 }
