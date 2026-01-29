@@ -50,7 +50,7 @@
             </Grid.RowDefinitions>
 
             <!-- canvas -->
-            <Grid BorderBrush="Black" BorderThickness="1">
+            <Border BorderBrush="Black" BorderThickness="1">
                 <Canvas
                     x:Name="Surface"
                     Background="Transparent"
@@ -116,13 +116,12 @@
                         Y2="225"
                         Canvas.ZIndex="-1" />
                 </Canvas>
-            </Grid>
+            </Border>
 
             <!-- mouse pos -->
-            <Grid Row="1">
-                <TextBlock
-                    x:Name="MousePos" />
-            </Grid>
+            <TextBlock
+                Grid.Row="1"
+                x:Name="MousePos" />
         </Grid>
 
         <Grid
@@ -132,16 +131,9 @@
 
             <!-- Visualisation -->
             <!-- view + file manipulation -->
-            <Grid
+            <StackPanel
                 uen:Region.Name="Visualisation"
                 Visibility="Collapsed">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
 
                 <!-- zoom -->
                 <StackPanel
@@ -223,18 +215,26 @@
                         Margin="10"
                         Click="OnSave" />
                 </StackPanel>
-            </Grid>
+            </StackPanel>
 
             <!-- Calculation -->
-            <Grid
+            <StackPanel
                 uen:Region.Name="Calculation"
-                Visibility="Collapsed">
-                <TextBlock
-                    Text="TODO Calculation"
-                    FontSize="24"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
-            </Grid>
+                Visibility="Collapsed"
+                HorizontalAlignment="Center">
+                <Button
+                    Content="Restart"
+                    Margin="10"
+                    Click="OnRestart" />
+                <Button
+                    Content="Next Step"
+                    Margin="10"
+                    Click="OnNextStep" />
+                <Button
+                    Content="Play / Pause"
+                    Margin="10"
+                    Click="OnPlayPause" />
+            </StackPanel>
         </Grid>
 
         <utu:TabBar

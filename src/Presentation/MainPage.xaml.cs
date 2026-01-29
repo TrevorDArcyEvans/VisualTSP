@@ -506,4 +506,20 @@ public sealed partial class MainPage : INotifyPropertyChanged
     }
 
     #endregion
+
+    #region Calculation
+
+    private void OnRestart(object sender, RoutedEventArgs e)
+    {
+    }
+
+    private void OnNextStep(object sender, RoutedEventArgs e)
+    {
+    }
+
+    private void OnPlayPause(object sender, RoutedEventArgs e)
+    {
+    }
+
+    #endregion
 }
