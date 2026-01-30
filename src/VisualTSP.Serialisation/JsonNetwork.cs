@@ -1,6 +1,6 @@
-using VisualTSP.Models;
-
 namespace VisualTSP.Serialisation;
+
+using Models;
 
 public sealed class JsonNetwork
 {
