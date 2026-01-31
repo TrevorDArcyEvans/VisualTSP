@@ -8,49 +8,51 @@ using Shouldly;
 [TestFixture]
 public sealed class Greedy_Tests
 {
-    private Network _network;
-    private List<Link> _route;
-
-    [SetUp]
-    public void Setup()
+    private (Network, List<Link>) Solve(string networkFileName)
     {
-        var filePath = Path.Combine("samples", "New Document.tsp");
+        var filePath = Path.Combine("samples", networkFileName);
         var json = File.ReadAllText(filePath);
         var jsonNetwork = JsonConvert.DeserializeObject<JsonNetwork>(json);
-        _network = jsonNetwork.ToNetwork();
-        var solver = new Greedy(_network);
-        _route = solver.Solve();
+        var network = jsonNetwork!.ToNetwork();
+        var solver = new Greedy(network);
+        var route = solver.Solve();
+
+        return (network, route);
     }
 
     [Test]
     public void Solve_returns_expected_total_cost()
     {
-        _route.Sum(x => x.Cost).ShouldBe(35);
+        var (_, route) = Solve("New Document.tsp");
+
+        route.Sum(x => x.Cost).ShouldBe(35);
     }
 
     [Test]
     public void Solve_returns_expected_route()
     {
+        var (network, route) = Solve("New Document.tsp");
+
         // aaa -> bbb -> ddd -> ccc -> eee
-        _route.Count.ShouldBe(4);
+        route.Count.ShouldBe(4);
 
         // Note that direction of links is a bit random due to how they were initially defined
         // TODO     make link start+end evaluation more robust
 
         // aaa -> bbb
-        _network.Nodes.Single(x => x.Id == _route[0].Start).Name.ShouldBe("aaa");
-        _network.Nodes.Single(x => x.Id == _route[0].End).Name.ShouldBe("bbb");
+        network.Nodes.Single(x => x.Id == route[0].Start).Name.ShouldBe("aaa");
+        network.Nodes.Single(x => x.Id == route[0].End).Name.ShouldBe("bbb");
 
         // bbb -> ddd
-        _network.Nodes.Single(x => x.Id == _route[1].Start).Name.ShouldBe("ddd");
-        _network.Nodes.Single(x => x.Id == _route[1].End).Name.ShouldBe("bbb");
+        network.Nodes.Single(x => x.Id == route[1].Start).Name.ShouldBe("ddd");
+        network.Nodes.Single(x => x.Id == route[1].End).Name.ShouldBe("bbb");
 
         // ddd -> ccc
-        _network.Nodes.Single(x => x.Id == _route[2].Start).Name.ShouldBe("ddd");
-        _network.Nodes.Single(x => x.Id == _route[2].End).Name.ShouldBe("ccc");
+        network.Nodes.Single(x => x.Id == route[2].Start).Name.ShouldBe("ddd");
+        network.Nodes.Single(x => x.Id == route[2].End).Name.ShouldBe("ccc");
 
         // ccc -> eee
-        _network.Nodes.Single(x => x.Id == _route[3].Start).Name.ShouldBe("eee");
-        _network.Nodes.Single(x => x.Id == _route[3].End).Name.ShouldBe("ccc");
+        network.Nodes.Single(x => x.Id == route[3].Start).Name.ShouldBe("eee");
+        network.Nodes.Single(x => x.Id == route[3].End).Name.ShouldBe("ccc");
     }
 }
