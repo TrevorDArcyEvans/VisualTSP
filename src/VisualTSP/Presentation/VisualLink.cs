@@ -6,14 +6,15 @@ using Serialisation;
 
 public sealed class VisualLink : Line, IHighlightable
 {
-    public static Brush DefaultBrush = "Black";
+    public static Brush DefaultStroke = "Black";
+    public const double DefaultStrokeThickness = 4d;
 
     public Link Link { get; set; } = new();
 
     public VisualLink()
     {
-        Stroke = DefaultBrush;
-        StrokeThickness = 4d;
+        Stroke = DefaultStroke;
+        StrokeThickness = DefaultStrokeThickness;
         Tag = 10;
         UpdateToolTip();
         Canvas.SetZIndex(this, -1);

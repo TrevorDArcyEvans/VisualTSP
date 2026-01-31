@@ -409,10 +409,10 @@ public sealed partial class MainPage : INotifyPropertyChanged
     {
         _isLinking = true;
         _linkStart = (VisualNode) EditNodeMenu.Target;
-        _linkPreview = new Line()
+        _linkPreview = new Line
         {
-            Stroke = "Black",
-            StrokeThickness = 4d,
+            Stroke = VisualLink.DefaultStroke,
+            StrokeThickness = VisualLink.DefaultStrokeThickness,
             X1 = _currPoint.Position.X,
             Y1 = _currPoint.Position.Y,
             X2 = _currPoint.Position.X,
@@ -737,7 +737,7 @@ public sealed partial class MainPage : INotifyPropertyChanged
 
     private void HideShowGreedyRoute()
     {
-        var hiColour = Greedy_Show ? Colors.Red : VisualLink.DefaultBrush;
+        var hiColour = Greedy_Show ? Colors.Red : VisualLink.DefaultStroke;
         var greedyLinkIds = _greedyRoute.Select(x => x.Id).ToHashSet();
         Surface.Children
             .OfType<VisualLink>()
