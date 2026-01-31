@@ -8,7 +8,7 @@ using Shouldly;
 [TestFixture]
 public sealed class Greedy_Tests
 {
-    private (Network, List<Link>) Solve(string networkFileName)
+    private static (Network, List<Link>) Solve(string networkFileName)
     {
         var filePath = Path.Combine("samples", networkFileName);
         var json = File.ReadAllText(filePath);
@@ -21,7 +21,7 @@ public sealed class Greedy_Tests
     }
 
     [Test]
-    public void Solve_returns_expected_total_cost()
+    public void Solve_ref_returns_expected_total_cost()
     {
         var (_, route) = Solve("New Document.tsp");
 
@@ -29,7 +29,7 @@ public sealed class Greedy_Tests
     }
 
     [Test]
-    public void Solve_returns_expected_route()
+    public void Solve_ref_returns_expected_route()
     {
         var (network, route) = Solve("New Document.tsp");
 
@@ -54,5 +54,11 @@ public sealed class Greedy_Tests
         // ccc -> eee
         network.Nodes.Single(x => x.Id == route[3].Start).Name.ShouldBe("eee");
         network.Nodes.Single(x => x.Id == route[3].End).Name.ShouldBe("ccc");
+    }
+
+    [Test]
+    public void Solve_hub_spoke_throws_expected()
+    {
+        Should.Throw<NullReferenceException>(() => Solve("hub-spoke.tsp"));
     }
 }
