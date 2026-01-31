@@ -23,7 +23,7 @@ public sealed class Greedy_Tests
     [Test]
     public void Solve_ref_returns_expected_total_cost()
     {
-        var (_, route) = Solve("New Document.tsp");
+        var (_, route) = Solve("reference.tsp");
 
         route.Sum(x => x.Cost).ShouldBe(35);
     }
@@ -31,7 +31,7 @@ public sealed class Greedy_Tests
     [Test]
     public void Solve_ref_returns_expected_route()
     {
-        var (network, route) = Solve("New Document.tsp");
+        var (network, route) = Solve("reference.tsp");
 
         // aaa -> bbb -> ddd -> ccc -> eee
         route.Count.ShouldBe(4);

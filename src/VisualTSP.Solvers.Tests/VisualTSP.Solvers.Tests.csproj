@@ -32,8 +32,8 @@
       <Link>samples/hub-spoke.tsp</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\samples\New Document.tsp">
-      <Link>samples/New Document.tsp</Link>
+    <None Include="..\..\samples\reference.tsp">
+      <Link>samples/reference.tsp</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
