@@ -57,8 +57,10 @@ public sealed class Greedy_Tests
     }
 
     [Test]
-    public void Solve_hub_spoke_throws_expected()
+    public void Solve_hub_spoke_returns_empty()
     {
-        Should.Throw<NullReferenceException>(() => Solve("hub-spoke.tsp"));
+        var (_, route) = Solve("hub-spoke.tsp");
+        
+        route.ShouldBe(Array.Empty<Link>());
     }
 }

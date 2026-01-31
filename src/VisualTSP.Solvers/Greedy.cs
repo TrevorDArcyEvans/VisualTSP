@@ -48,6 +48,13 @@ public class Greedy(Network network)
                 }
             }
 
+            if (closestNode is null)
+            {
+                // cannot get to another node we haven't visited,
+                // so no solution possible
+                return [];
+            }
+
             remainingNodes.Remove(closestNode);
             route.Add(minLink);
             lastNode = closestNode;
